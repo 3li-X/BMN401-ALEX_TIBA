@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALEX_TIBA — أساسيات الإدارة BMN401</title>
+<style>
+:root {
+  --primary: #1a56a4;
+  --primary-dark: #0f3b7a;
+  --secondary: #e8a020;
+  --accent: #12b886;
+  --danger: #e03131;
+  --success: #2f9e44;
+  --bg: #f0f4f8;
+  --card-bg: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #6b7280;
+  --border: #e2e8f0;
+  --shadow: 0 4px 24px rgba(26,86,164,0.10);
+  --shadow-lg: 0 8px 40px rgba(26,86,164,0.16);
+  --radius: 14px;
+  --ch1: #1a56a4; --ch2: #7048e8; --ch3: #e03131;
+  --ch4: #2f9e44; --ch5: #e8a020; --ch6: #0c8599;
+  --ch7: #9c36b5; --ch8: #c2255c; --ch9: #1971c2; --ch10: #5c7a1a;
+}
+[data-theme="dark"] {
+  --bg: #0f172a; --card-bg: #1e293b; --text: #e2e8f0;
+  --text-muted: #94a3b8; --border: #334155;
+  --shadow: 0 4px 24px rgba(0,0,0,0.40); --shadow-lg: 0 8px 40px rgba(0,0,0,0.50);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);transition:background 0.3s,color 0.3s;min-height:100vh;}
+/* HEADER */
+#main-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 60%,#0a2a5c 100%);color:#fff;padding:0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 16px rgba(0,0,0,0.25);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;flex-wrap:wrap;}
+.logo-area{display:flex;align-items:center;gap:12px;}
+.logo-svg{width:52px;height:52px;flex-shrink:0;}
+.logo-texts h1{font-size:1.5rem;font-weight:800;letter-spacing:1px;color:#fff;line-height:1.2;}
+.logo-texts p{font-size:0.72rem;color:#a8c4f5;margin-top:2px;}
+.header-controls{display:flex;align-items:center;gap:8px;}
+#theme-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+#theme-btn:hover{background:rgba(255,255,255,0.28);}
+#search-header{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:8px 14px;border-radius:20px;font-size:0.85rem;width:200px;outline:none;}
+#search-header::placeholder{color:rgba(255,255,255,0.6);}
+/* NAV */
+#main-nav{display:flex;gap:0;overflow-x:auto;background:rgba(0,0,0,0.2);padding:0 12px;scrollbar-width:none;}
+#main-nav::-webkit-scrollbar{display:none;}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,0.8);padding:10px 16px;cursor:pointer;font-size:0.82rem;white-space:nowrap;border-bottom:3px solid transparent;transition:all 0.2s;font-family:inherit;}
+.nav-btn:hover,.nav-btn.active{color:#fff;border-bottom-color:var(--secondary);background:rgba(255,255,255,0.08);}
+/* MAIN */
+#app{max-width:1200px;margin:0 auto;padding:20px 16px;}
+.section{display:none;}
+.section.active{display:block;}
+/* CARDS */
+.card{background:var(--card-bg);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:16px;transition:all 0.2s;}
+.card:hover{box-shadow:var(--shadow-lg);}
+.card-title{font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr);}.grid-3{grid-template-columns:1fr 1fr;}.grid-2{grid-template-columns:1fr;}}
+@media(max-width:600px){.grid-3{grid-template-columns:1fr;}.grid-4{grid-template-columns:1fr;}}
+/* STAT CARDS */
+.stat-card{background:var(--card-bg);border-radius:var(--radius);padding:20px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--color,var(--primary));}
+.stat-num{font-size:2.2rem;font-weight:800;color:var(--color,var(--primary));}
+.stat-label{font-size:0.82rem;color:var(--text-muted);margin-top:4px;}
+/* CHAPTER CARDS */
+.ch-card{background:var(--card-bg);border-radius:var(--radius);padding:0;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:all 0.25s;}
+.ch-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.ch-header{padding:18px 20px;color:#fff;display:flex;align-items:center;gap:12px;}
+.ch-num{background:rgba(255,255,255,0.25);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;flex-shrink:0;}
+.ch-title-text{font-size:1rem;font-weight:700;}
+.ch-body{padding:16px 20px;}
+.ch-body p{font-size:0.88rem;color:var(--text-muted);line-height:1.7;}
+.ch-footer{padding:10px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;flex:1;margin-left:10px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:var(--primary);transition:width 0.5s;}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;transition:all 0.2s;font-family:inherit;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-secondary{background:var(--secondary);color:#fff;}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary);}
+.btn-sm{padding:6px 14px;font-size:0.82rem;}
+.btn-lg{padding:14px 28px;font-size:1rem;}
+/* BADGES */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:600;}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-red{background:#fee2e2;color:#991b1b;}
+.badge-yellow{background:#fef9c3;color:#854d0e;}
+.badge-star{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;}
+[data-theme="dark"] .badge-blue{background:#1e3a5f;color:#93c5fd;}
+[data-theme="dark"] .badge-green{background:#14532d;color:#86efac;}
+[data-theme="dark"] .badge-red{background:#450a0a;color:#fca5a5;}
+[data-theme="dark"] .badge-yellow{background:#422006;color:#fde68a;}
+/* FLASHCARDS */
+.flashcard-wrap{perspective:1000px;margin:0 auto;max-width:580px;}
+.flashcard{width:100%;height:300px;position:relative;transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(.4,2,.6,1);cursor:pointer;}
+.flashcard.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;box-shadow:var(--shadow-lg);}
+.fc-front{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 100%);color:#fff;}
+.fc-back{background:linear-gradient(135deg,var(--accent) 0%,#099268 100%);color:#fff;transform:rotateY(180deg);}
+.fc-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;opacity:0.75;margin-bottom:12px;}
+.fc-content{font-size:1.15rem;font-weight:700;line-height:1.6;}
+.fc-hint{font-size:0.78rem;opacity:0.65;margin-top:12px;}
+.fc-controls{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
+.fc-counter{text-align:center;margin-top:10px;color:var(--text-muted);font-size:0.85rem;}
+.fc-fav-btn{background:none;border:none;cursor:pointer;font-size:1.3rem;padding:4px;}
+/* MCQ */
+.mcq-question{background:var(--card-bg);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;border-right:5px solid var(--primary);}
+.mcq-q-text{font-size:1rem;font-weight:700;margin-bottom:16px;line-height:1.7;}
+.mcq-q-num{color:var(--primary);margin-left:6px;}
+.mcq-options{display:flex;flex-direction:column;gap:10px;}
+.mcq-option{padding:12px 16px;border-radius:8px;border:2px solid var(--border);cursor:pointer;transition:all 0.2s;font-size:0.92rem;display:flex;align-items:center;gap:10px;background:var(--bg);}
+.mcq-option:hover:not(.disabled){border-color:var(--primary);background:rgba(26,86,164,0.06);}
+.mcq-option.correct{border-color:var(--success);background:#dcfce7;color:#166534;}
+.mcq-option.wrong{border-color:var(--danger);background:#fee2e2;color:#991b1b;}
+.mcq-option.disabled{cursor:default;}
+[data-theme="dark"] .mcq-option.correct{background:#14532d;color:#86efac;}
+[data-theme="dark"] .mcq-option.wrong{background:#450a0a;color:#fca5a5;}
+.mcq-explanation{margin-top:12px;padding:12px 16px;border-radius:8px;background:rgba(18,184,134,0.08);border:1px solid var(--accent);font-size:0.87rem;color:var(--text);}
+.mcq-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+/* TRUE FALSE */
+.tf-card{background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px;border-right:5px solid var(--secondary);}
+.tf-statement{font-size:0.97rem;font-weight:600;margin-bottom:14px;line-height:1.7;}
+.tf-btns{display:flex;gap:10px;}
+.tf-btn{padding:10px 24px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:0.9rem;font-weight:700;transition:all 0.2s;background:var(--bg);color:var(--text);font-family:inherit;}
+.tf-btn.correct-choice{border-color:var(--success);background:#dcfce7;color:#166534;}
+.tf-btn.wrong-choice{border-color:var(--danger);background:#fee2e2;color:#991b1b;}
+.tf-result{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:0.87rem;display:none;}
+.tf-result.show{display:block;}
+.tf-result.right{background:#dcfce7;color:#166534;border:1px solid #86efac;}
+.tf-result.fail{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;}
+[data-theme="dark"] .tf-btn.correct-choice{background:#14532d;color:#86efac;}
+[data-theme="dark"] .tf-btn.wrong-choice{background:#450a0a;color:#fca5a5;}
+/* COMPARISON */
+.comp-table{width:100%;border-collapse:collapse;font-size:0.88rem;}
+.comp-table th{background:var(--primary);color:#fff;padding:12px 14px;text-align:right;}
+.comp-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+.comp-table tr:nth-child(even){background:rgba(26,86,164,0.04);}
+[data-theme="dark"] .comp-table tr:nth-child(even){background:rgba(26,86,164,0.10);}
+.comp-table tr:hover{background:rgba(26,86,164,0.07);}
+.comp-section{margin-bottom:28px;}
+.comp-title{font-size:1.1rem;font-weight:700;margin-bottom:12px;padding:10px 14px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;}
+.toggle-answers-btn{margin-bottom:12px;}
+/* REVIEW */
+.review-item{background:var(--card-bg);border-radius:10px;padding:14px 18px;margin-bottom:10px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.star-icon{color:var(--secondary);font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.review-item p{font-size:0.92rem;line-height:1.7;font-weight:500;}
+/* NUMBERS GAME */
+.game-card{background:var(--card-bg);border-radius:var(--radius);padding:28px;text-align:center;box-shadow:var(--shadow-lg);max-width:500px;margin:0 auto;}
+.game-question{font-size:1.15rem;font-weight:700;margin-bottom:20px;line-height:1.7;}
+.game-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.game-opt{padding:12px;border-radius:8px;border:2px solid var(--border);cursor:pointer;font-size:1rem;font-weight:700;transition:all 0.2s;background:var(--bg);font-family:inherit;color:var(--text);}
+.game-opt:hover:not(.disabled){border-color:var(--primary);background:rgba(26,86,164,0.06);}
+.game-opt.correct{border-color:var(--success);background:#dcfce7;color:#166534;}
+.game-opt.wrong{border-color:var(--danger);background:#fee2e2;color:#991b1b;}
+.score-display{font-size:1.5rem;font-weight:800;color:var(--primary);margin-bottom:8px;}
+/* SEARCH */
+.search-result-item{padding:14px 18px;border-radius:8px;border:1px solid var(--border);margin-bottom:10px;cursor:pointer;background:var(--card-bg);transition:all 0.2s;}
+.search-result-item:hover{border-color:var(--primary);background:rgba(26,86,164,0.04);}
+.search-result-type{font-size:0.73rem;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.search-result-text{font-size:0.92rem;line-height:1.6;}
+mark{background:rgba(232,160,32,0.35);border-radius:3px;padding:1px 3px;}
+/* EXAM */
+.exam-timer{font-size:2rem;font-weight:800;color:var(--primary);text-align:center;margin-bottom:20px;font-variant-numeric:tabular-nums;}
+.exam-timer.danger{color:var(--danger);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.result-box{text-align:center;padding:40px;background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow-lg);}
+.result-grade{font-size:4rem;font-weight:800;margin-bottom:8px;}
+.result-label{font-size:1.1rem;color:var(--text-muted);margin-bottom:20px;}
+/* PAGE HEADER */
+.page-header{margin-bottom:24px;}
+.page-header h2{font-size:1.6rem;font-weight:800;color:var(--primary);margin-bottom:6px;}
+.page-header p{color:var(--text-muted);font-size:0.9rem;}
+/* CHAPTER DETAIL */
+.ch-detail-header{border-radius:var(--radius);color:#fff;padding:24px;margin-bottom:20px;}
+.ch-detail-header h2{font-size:1.4rem;font-weight:800;margin-bottom:6px;}
+.key-point{background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.35);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.89rem;line-height:1.7;display:flex;gap:8px;align-items:flex-start;}
+.key-point .star{color:var(--secondary);flex-shrink:0;}
+.concept-box{background:var(--card-bg);border-radius:10px;padding:16px;border:1px solid var(--border);margin-bottom:12px;}
+.concept-box h4{font-size:0.9rem;font-weight:700;margin-bottom:8px;color:var(--primary);}
+.concept-list{list-style:none;padding:0;}
+.concept-list li{padding:6px 0;border-bottom:1px solid var(--border);font-size:0.87rem;line-height:1.6;display:flex;gap:8px;align-items:flex-start;}
+.concept-list li:last-child{border-bottom:none;}
+.concept-list li::before{content:"•";color:var(--primary);flex-shrink:0;margin-top:2px;}
+.info-box{background:rgba(18,184,134,0.08);border:1px solid var(--accent);border-radius:8px;padding:14px 18px;margin-bottom:12px;font-size:0.88rem;line-height:1.7;}
+.warn-box{background:rgba(232,160,32,0.10);border:1px solid var(--secondary);border-radius:8px;padding:14px 18px;margin-bottom:12px;font-size:0.88rem;line-height:1.7;}
+.danger-box{background:rgba(224,49,49,0.08);border:1px solid var(--danger);border-radius:8px;padding:14px 18px;margin-bottom:12px;font-size:0.88rem;line-height:1.7;}
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:20px;overflow-x:auto;scrollbar-width:none;}
+.tab{padding:10px 18px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;font-weight:600;font-size:0.88rem;color:var(--text-muted);white-space:nowrap;transition:all 0.2s;}
+.tab:hover{color:var(--primary);}
+.tab.active{border-bottom-color:var(--primary);color:var(--primary);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+/* PROGRESS */
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.prog-label{min-width:120px;font-size:0.87rem;font-weight:600;}
+.prog-track{flex:1;height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width 0.8s;}
+.prog-val{min-width:40px;text-align:left;font-size:0.82rem;color:var(--text-muted);}
+/* QUICK NAV */
+.quick-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.quick-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--text);transition:all 0.2s;font-family:inherit;}
+.quick-btn:hover{border-color:var(--primary);color:var(--primary);}
+/* TOOLTIP */
+[title]{cursor:help;}
+/* RESPONSIVE NAV */
+@media(max-width:600px){
+  .header-inner{padding:10px 12px;}
+  .logo-texts h1{font-size:1.2rem;}
+  #search-header{width:140px;}
+  #app{padding:12px 10px;}
+}
+/* HIGHLIGHT ANIMATION */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.card,.ch-card,.mcq-question,.tf-card,.review-item{animation:fadeInUp 0.3s ease both;}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+/* MASTERY BADGE */
+.mastery{display:flex;align-items:center;gap:6px;font-size:0.8rem;font-weight:600;}
+.mastery-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+/* FOOTER */
+footer{text-align:center;padding:20px;color:var(--text-muted);font-size:0.8rem;border-top:1px solid var(--border);margin-top:40px;}
+</style>
+</head>
+<body>
+
+<header id="main-header">
+  <div class="header-inner">
+    <div class="logo-area">
+      <svg class="logo-svg" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-label="ALEX_TIBA Logo">
+        <defs>
+          <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#fff;stop-opacity:0.95"/>
+            <stop offset="100%" style="stop-color:#a8c4f5;stop-opacity:0.9"/>
+          </linearGradient>
+          <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#e8a020;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1"/>
+          </linearGradient>
+        </defs>
+        <circle cx="26" cy="26" r="24" fill="none" stroke="url(#lg1)" stroke-width="2" opacity="0.6"/>
+        <polygon points="26,6 40,20 40,38 26,46 12,38 12,20" fill="none" stroke="url(#lg1)" stroke-width="1.5" opacity="0.5"/>
+        <text x="26" y="28" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="11" fill="url(#lg1)" letter-spacing="0.5">ALEX</text>
+        <text x="26" y="39" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="8.5" fill="url(#lg2)" letter-spacing="1">TIBA</text>
+        <circle cx="26" cy="16" r="3.5" fill="url(#lg2)" opacity="0.9"/>
+        <line x1="12" y1="20" x2="40" y2="20" stroke="url(#lg1)" stroke-width="0.8" opacity="0.4"/>
+      </svg>
+      <div class="logo-texts">
+        <h1>ALEX_TIBA</h1>
+        <p>أساسيات الإدارة — BMN401 | منصة الدراسة الذكية</p>
+      </div>
+    </div>
+    <div class="header-controls">
+      <input type="text" id="search-header" placeholder="🔍 بحث سريع..." oninput="liveSearch(this.value)">
+      <button id="theme-btn" onclick="toggleTheme()">🌙 ليلي</button>
+    </div>
+  </div>
+  <nav id="main-nav">
+    <button class="nav-btn active" onclick="showSection('home')">🏠 الرئيسية</button>
+    <button class="nav-btn" onclick="showSection('summary')">📚 الملخص</button>
+    <button class="nav-btn" onclick="showSection('chapters')">📖 الفصول</button>
+    <button class="nav-btn" onclick="showSection('flashcards')">🃏 البطاقات</button>
+    <button class="nav-btn" onclick="showSection('mcq')">❓ أسئلة MCQ</button>
+    <button class="nav-btn" onclick="showSection('truefalse')">✅ صح وخطأ</button>
+    <button class="nav-btn" onclick="showSection('comparisons')">⚖️ المقارنات</button>
+    <button class="nav-btn" onclick="showSection('review')">⭐ المراجعة الذهبية</button>
+    <button class="nav-btn" onclick="showSection('numgame')">🎮 لعبة الأرقام</button>
+    <button class="nav-btn" onclick="showSection('search')">🔍 البحث الذكي</button>
+    <button class="nav-btn" onclick="showSection('exam')">📝 وضع الامتحان</button>
+  </nav>
+</header>
+
+<main id="app">
+
+<!-- ===== HOME ===== -->
+<section id="home" class="section active">
+  <div class="page-header">
+    <h2>🎓 لوحة التحكم الدراسية</h2>
+    <p>مرحباً بك في منصة ALEX_TIBA لمادة أساسيات الإدارة BMN401</p>
+  </div>
+  <div class="grid-4" style="margin-bottom:20px;">
+    <div class="stat-card" style="--color:#1a56a4;">
+      <div class="stat-num">10</div>
+      <div class="stat-label">📖 فصول دراسية</div>
+    </div>
+    <div class="stat-card" style="--color:#7048e8;">
+      <div class="stat-num">100</div>
+      <div class="stat-label">❓ سؤال MCQ</div>
+    </div>
+    <div class="stat-card" style="--color:#2f9e44;">
+      <div class="stat-num">52</div>
+      <div class="stat-label">🃏 بطاقة تعليمية</div>
+    </div>
+    <div class="stat-card" style="--color:#e8a020;">
+      <div class="stat-num">25</div>
+      <div class="stat-label">✅ سؤال صح وخطأ</div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-title">📊 تقدمك الدراسي</div>
+      <div id="progress-display">
+        <div class="prog-row"><div class="prog-label">الفصول المكتملة</div><div class="prog-track"><div class="prog-fill" id="ch-prog" style="width:0%"></div></div><div class="prog-val" id="ch-prog-val">0%</div></div>
+        <div class="prog-row"><div class="prog-label">أسئلة MCQ</div><div class="prog-track"><div class="prog-fill" style="background:linear-gradient(90deg,#7048e8,#a855f7);width:0%" id="mcq-prog"></div></div><div class="prog-val" id="mcq-prog-val">0%</div></div>
+        <div class="prog-row"><div class="prog-label">صح وخطأ</div><div class="prog-track"><div class="prog-fill" style="background:linear-gradient(90deg,#2f9e44,#22c55e);width:0%" id="tf-prog"></div></div><div class="prog-val" id="tf-prog-val">0%</div></div>
+        <div class="prog-row"><div class="prog-label">البطاقات المراجعة</div><div class="prog-track"><div class="prog-fill" style="background:linear-gradient(90deg,#e8a020,#f59e0b);width:0%" id="fc-prog"></div></div><div class="prog-val" id="fc-prog-val">0%</div></div>
+      </div>
+      <div style="margin-top:14px;font-size:0.85rem;color:var(--text-muted);" id="last-visited">آخر زيارة: لم تُسجَّل بعد</div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚡ وصول سريع</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="btn btn-primary btn-lg" onclick="showSection('mcq')" style="width:100%;justify-content:center;">❓ بنك أسئلة MCQ — 100 سؤال</button>
+        <button class="btn btn-secondary btn-lg" onclick="showSection('exam')" style="width:100%;justify-content:center;">📝 محاكاة الامتحان الحقيقي</button>
+        <button class="btn btn-success btn-lg" onclick="showSection('flashcards')" style="width:100%;justify-content:center;">🃏 البطاقات التعليمية</button>
+        <button class="btn btn-outline btn-lg" onclick="showSection('review')" style="width:100%;justify-content:center;">⭐ المراجعة الذهبية قبل الامتحان</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📌 إحصائيات الاختبارات</div>
+    <div class="grid-3" id="test-stats">
+      <div style="text-align:center;padding:14px;border-radius:10px;background:rgba(26,86,164,0.06);border:1px solid var(--border);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--primary);" id="stat-mcq-correct">0</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">✅ MCQ صحيح</div>
+      </div>
+      <div style="text-align:center;padding:14px;border-radius:10px;background:rgba(224,49,49,0.06);border:1px solid var(--border);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--danger);" id="stat-mcq-wrong">0</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">❌ MCQ خاطئ</div>
+      </div>
+      <div style="text-align:center;padding:14px;border-radius:10px;background:rgba(232,160,32,0.08);border:1px solid var(--border);">
+        <div style="font-size:1.8rem;font-weight:800;color:var(--secondary);" id="stat-exams">0</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">🎯 امتحانات مكتملة</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:0;">
+    <div class="card-title">🗂️ الفصول الدراسية — نظرة عامة</div>
+    <div class="grid-3" id="home-chapters"></div>
+  </div>
+</section>
+
+<!-- ===== SUMMARY ===== -->
+<section id="summary" class="section">
+  <div class="page-header">
+    <h2>📚 الملخص الذهبي للمادة</h2>
+    <p>ملخص شامل لجميع الفصول العشرة — استخرج من الملف الأصلي بالكامل</p>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(this,'sum-tabs','sum1')">ف1: مفهوم الإدارة</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum2')">ف2: مدارس الفكر</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum3')">ف3: الأساليب الناجحة</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum4')">ف4: الإدارة اليابانية</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum5')">ف5: التخطيط</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum6')">ف6: التنظيم</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum7')">ف7: التوجيه والقيادة</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum8')">ف8: الرقابة</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum9')">ف9: اتخاذ القرار</div>
+    <div class="tab" onclick="switchTab(this,'sum-tabs','sum10')">ف10: المنهجية الحديثة</div>
+  </div>
+  <div class="sum-tabs">
+    <div id="sum1" class="tab-content active">
+      <div class="card">
+        <h3 style="color:var(--ch1);margin-bottom:16px;">الفصل الأول: مفهوم الإدارة وأهميتها</h3>
+        <div class="key-point"><span class="star">★</span><span>الإدارة = علم وفن في آنٍ واحد (تعريف أساسي متوقع في الامتحان)</span></div>
+        <div class="key-point"><span class="star">★</span><span>العلم: معرفة منظمة يتم الوصول إليها بأساليب علمية</span></div>
+        <div class="key-point"><span class="star">★</span><span>الفن: القدرة الشخصية على تطبيق أفكار ونظريات بطريقة ذكية</span></div>
+        <div class="key-point"><span class="star">★</span><span>وظائف الإدارة الأربع: التنظيم — التخطيط — التوجيه — الرقابة</span></div>
+        <div class="concept-box"><h4>أهمية الإدارة في العالم المعاصر (6 نقاط)</h4><ul class="concept-list"><li>زيادة المستوى المعيشي للأفراد وتحسينه وتحقيق التقدم الاجتماعي</li><li>خلق الكفاءات القادرة على تسيير شؤون المنظمات</li><li>تحديد الطاقات الإنتاجية ووضع البرامج الزمنية لتشغيل الآلات والخطوط الإنتاجية</li><li>الاستخدام الرشيد للموارد الطبيعية المتاحة</li><li>تساهم الإدارة الحديثة في تقليص الهوة الكبيرة بين الدول النامية والمتقدمة</li><li>كل ما ذكر صحيح — الإجابة المتوقعة في الامتحان</li></ul></div>
+        <div class="info-box">★ الهوة = الفجوة بين جبلين أو شيئين — تعني الفارق بين الدول النامية والمتقدمة</div>
+        <div class="concept-box"><h4>اعتمدت الإدارة المعاصرة في اتخاذ قراراتها على:</h4><ul class="concept-list"><li>البحوث العلمية</li><li>البرمجة الرياضية</li><li>الإحصاء الرياضي</li><li>منظومات الحواسيب</li><li>★ كل ما ذكر صحيح — الإجابة المتوقعة</li></ul></div>
+        <div class="concept-box"><h4>في حالات الرواج / الكساد / المنافسة الشديدة</h4><ul class="concept-list"><li><strong>حالة الرواج الاقتصادي:</strong> تسعى إدارة المبيعات لتنسيق الجهود من قبل إدارة الإنتاج، وتسعى لإيجاد الوسائل الكفيلة بتحسين التنظيم الإداري والإنتاجي من أجل الوصول لأرقام قياسية في زيادة الإنتاج</li><li><strong>حالة الكساد الاقتصادي:</strong> محور العمليات الإدارية يتركز على تنسيق الجهود لتقوم إدارة المبيعات بتسويق المنتجات وتصريفها مما ينسجم مع مصالحها</li><li><strong>المنافسة الشديدة:</strong> تركز جهود الإداريين والفنيين لتحسين نوعية المنتج وتقليص تكاليفه لكي ينافس</li></ul></div>
+      </div>
+    </div>
+    <div id="sum2" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch2);margin-bottom:16px;">الفصل الثاني: مدارس الفكر الإداري</h3>
+        <div class="key-point"><span class="star">★</span><span>مدارس الفكر الإداري تنقسم إلى قسمين: المدرسة الكلاسيكية + مدرسة العلاقات الإنسانية والسلوكية</span></div>
+        <div class="concept-box"><h4>المدرسة الكلاسيكية — ثلاث مدارس فرعية</h4><ul class="concept-list"><li>المدرسة العلمية (فريدريك تايلور)</li><li>المدرسة التنظيمية (هنري فايول)</li><li>المدرسة البيروقراطية (ماكس فيبر)</li></ul></div>
+        <div class="warn-box">
+          <strong>فريدريك تايلور — المدرسة العلمية:</strong><br>
+          ★ يُعدّ فريدريك تايلور أبا الإدارة العلمية في القرن العشرين<br>
+          ★ هدفه: التعرف على كيفية رفع إنتاجية العمل بأسلوب علمي<br>
+          ★ نظرية الرجل الاقتصادي: الإنسان بطبعه أناني وهدفه الوحيد الوصول إلى مكاسب مادية<br>
+          ★ الأجور ارتفعت إلى ثلاثة أضعاف لكن الإنتاج لم يرتفع إلا بحدود 60%
+        </div>
+        <div class="concept-box"><h4>مبادئ تايلور (7 مبادئ)</h4><ul class="concept-list"><li>تحليل العمل والعمليات الإنتاجية إلى عناصرها الأساسية واستبعاد الحركات الزائدة</li><li>تقسيم عادل للمسؤولية بين الإدارة والعمال</li><li>تحقيق التعاون بين العمال والإدارة لإنجاز الأعمال بطريقة صحيحة</li><li>تعيين العمال والفنيين في الأمكنة التي تلائم اختصاصاتهم</li><li>استخدام معايير ومقاييس دقيقة لأداء العمل</li><li>الاختيار العلمي السليم للعمال للعمل على أسس دقيقة من المهارة والقدرة</li><li>★ كل ما ذكر صحيح</li></ul></div>
+        <div class="info-box">
+          <strong>هنري فايول — المدرسة التنظيمية:</strong><br>
+          ★ ظهر كتابه في الإدارة العامة والصناعية في فرنسا عام 1916<br>
+          ★ قُسِّم الكتاب إلى ثلاثة أقسام: الكفايات الإدارية والتدريب — المبادئ العامة في الإدارة — الوظائف الإدارية<br>
+          ★ قسّم فايول الوظائف الإدارية إلى خمسة عناصر: التخطيط — التنظيم — القيادة — التنسيق — الرقابة
+        </div>
+        <div class="concept-box"><h4>المبادئ الـ12 لفايول (مهم جداً)</h4><ul class="concept-list"><li>مبدأ تقسيم العمل والسلطة والمسؤولية</li><li>النظام والانضباط</li><li>★ وحدة القيادة والأوامر (هدفه تجنب الارتباك والأوامر المتضاربة)</li><li>وحدة التوجيه</li><li>تغليب المصلحة العامة على الفردية</li><li>المكافأة العادلة والتعويض</li><li>التدرج السلطوي</li><li>الترتيب أو النظام</li><li>المساواة والعدل</li><li>استقرار العاملين</li><li>المبادرة</li><li>روح الجماعة أو الفريق</li></ul></div>
+        <div class="danger-box">★ فكرة وحدة القيادة والأوامر جاء بها فايول رداً على فكرة التنظيم الوظيفي لفريدريك تايلور</div>
+        <div class="info-box">
+          <strong>ماكس فيبر — المدرسة البيروقراطية:</strong><br>
+          ★ يُعدّ ماكس فيبر من أهم مفكري المدرسة البيروقراطية<br>
+          ★ إيجابيات: الاعتماد على الرشد والعقلانية + يطبق على المنظمات الحكومية الضخمة
+        </div>
+        <div class="concept-box"><h4>خصائص التنظيم البيروقراطي الـ8</h4><ul class="concept-list"><li>توزيع العمل</li><li>التخصص الوظيفي</li><li>تسلسل السلطة الرئاسي</li><li>تعيين الموظفين</li><li>تحديد طرق الأداء وضوابطه</li><li>الترقية</li><li>الرشد والعقلانية</li><li>الاحتراف الوظيفي</li></ul></div>
+        <div class="concept-box"><h4>سلبيات النظرية البيروقراطية</h4><ul class="concept-list"><li>الجمود والروتين وانعدام المرونة (بسبب التقيد بالقوانين)</li><li>تحويل الوسائل إلى غايات</li><li>إهمال الكفاءات وانخفاضها (بسبب مبدأ الترقية)</li><li>التركيز على اتخاذ القرارات في المستويات العليا وعدم مشاركة المستويات الدنيا</li><li>إهمال العنصر الشخصي الإنساني</li><li>إهمال أثر الظروف والعوامل الخارجية</li></ul></div>
+        <div class="info-box">
+          <strong>مدرسة العلاقات الإنسانية والسلوكية:</strong><br>
+          ★ مبدأها: الإنسان يندفع للعمل تحت تأثير مجموعة من العوامل النفسية<br>
+          ★ تجارب هوثورن ألتون مايو: أُقيمت في جامعة هارفارد عام 1927 واستمرت خمس سنوات<br>
+          ★ الروابط الإنسانية أقوى بكثير من الروابط المادية والحوافز المادية
+        </div>
+        <div class="concept-box"><h4>نتائج تجارب هوثورن</h4><ul class="concept-list"><li>شعور العامل بالرضا</li><li>أدت علاقة العاملين بالإدارة إلى التعاون لتنفيذ الخطط الإنتاجية</li><li>الاعتبارات المادية والحوافز التشجيعية لا تعني شيئاً بالنسبة لزيادة الإنتاج</li><li>ضرورة منح العاملين حرية التصرف أثناء تأدية المهام</li></ul></div>
+        <div class="concept-box"><h4>ماري فيوليت — السمات الرئيسية</h4><ul class="concept-list"><li>★ تُعدّ من رواد المدرستين: العلمية والإنسانية السلوكية</li><li>★ المسؤولية جماعية لا تقع على عاتق الشخص بذاته</li><li>استبعاد المركزية السلطوية</li><li>جماعية المسؤولية</li><li>استخدام السلطة</li><li>التنسيق</li></ul></div>
+        <div class="concept-box"><h4>إبراهام ماسلو — هرم الحاجات (5 مستويات من الأدنى للأعلى)</h4><ul class="concept-list"><li>1. الاحتياجات الفسيولوجية (الأساسية كالطعام والماء والإشباع الجنسي والتكاثر)</li><li>2. الأمن والسلامة</li><li>3. الاحتياجات الاجتماعية</li><li>4. التقدير</li><li>5. تحقيق الذات</li></ul></div>
+        <div class="concept-box"><h4>ماكريجر — نظرية X و Y (صدر الكتاب عام 1960)</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px;">
+            <div style="background:rgba(224,49,49,0.07);border-radius:8px;padding:12px;border:1px solid rgba(224,49,49,0.3);">
+              <strong style="color:var(--danger);">نظرية X (السلبية)</strong>
+              <ul class="concept-list" style="margin-top:8px;"><li>الإنسان بطبيعته سلبي ولا يحب العمل</li><li>الإنسان كسول لا يرغب في تحمل المسؤولية</li><li>يُفضل أن يجد شخصاً يقوده</li><li>العقاب أو التهديد من وسائل الدفع للعمل</li><li>الأجر والمزايا المادية أهم من حوافز العمل</li></ul>
+            </div>
+            <div style="background:rgba(47,158,68,0.07);border-radius:8px;padding:12px;border:1px solid rgba(47,158,68,0.3);">
+              <strong style="color:var(--success);">نظرية Y (الإيجابية)</strong>
+              <ul class="concept-list" style="margin-top:8px;"><li>الطاقات التي يتمتع بها الإنسان</li><li>الرقابة الذاتية للفرد</li><li>التزام الفرد بأهداف المؤسسة</li><li>قدرات الفرد في حل المشاكل</li><li>التقدم الصناعي في الدول المتقدمة</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sum3" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch3);margin-bottom:16px;">الفصل الثالث: الإدارة بالأهداف</h3>
+        <div class="key-point"><span class="star">★</span><span>يمكن جوهر الإدارة في إمكانية وضع الأهداف لإنجاز والتحقيق</span></div>
+        <div class="key-point"><span class="star">★</span><span>منهج الإدارة بالأهداف ما هو إلا انعكاس لممارسة الإدارة ذاتها</span></div>
+        <div class="key-point"><span class="star">★</span><span>الهدف الرئيسي: مساعدة المنشأة أو جزء منها على تحقيق الأهداف والنتائج التي تضعها لنفسها</span></div>
+        <div class="key-point"><span class="star">★</span><span>تعتمد الإدارة بالأهداف على التشارك على كافة المستويات الإدارية</span></div>
+        <div class="concept-box"><h4>أهم الدعائم والقيم للإدارة بالأهداف (6 قيم)</h4><ul class="concept-list"><li>الاعتراف بأهمية العنصر الإنساني</li><li>الاتصال الفعال</li><li>الاتفاق على أهداف واضحة ومحددة</li><li>المشاركة</li><li>ديناميكية الإدارة</li><li>قيادة فريق العمل</li></ul></div>
+      </div>
+    </div>
+    <div id="sum4" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch4);margin-bottom:16px;">الفصل الرابع: الإدارة اليابانية ونظرية Z</h3>
+        <div class="key-point"><span class="star">★</span><span>نشأت بعد الحرب العالمية الثانية وبدأت تظهر منذ أواخر السبعينات وأوائل الثمانينات</span></div>
+        <div class="key-point"><span class="star">★</span><span>تُعدّ منافساً للإدارة الأمريكية</span></div>
+        <div class="key-point"><span class="star">★</span><span>أهم المبادئ: القيم الاجتماعية + الاستراتيجية الإدارية</span></div>
+        <div class="concept-box"><h4>خصائص الإدارة اليابانية — القيم الاجتماعية</h4><ul class="concept-list"><li>الوظيفة مدى الحياة</li><li>عدم التخصص في المهنة</li><li>التعليم والترقية</li><li>إدارة فريق العمل</li></ul></div>
+        <div class="concept-box"><h4>خصائص الإدارة اليابانية — الاستراتيجية الإدارية</h4><ul class="concept-list"><li>طبيعة اتخاذ القرار بشكل جماعي</li><li>التعليم والتدريب المستمران</li><li>القيادة الإدارية</li></ul></div>
+        <div class="info-box">
+          <strong>نظرية Z (أوتشي):</strong><br>
+          ★ طورها العالم الياباني ويليم أوتشي من جامعة أوهان<br>
+          ★ هدفها: تكامل الممارسات الإدارية اليابانية والأمريكية + ركزت على العنصر البشري
+        </div>
+        <div style="overflow-x:auto;margin-top:12px;">
+          <table class="comp-table">
+            <tr><th>العنصر</th><th>النموذج الأمريكي</th><th>النموذج الياباني</th><th>نموذج Z</th></tr>
+            <tr><td>مدة الاستخدام</td><td>قصير الأجل</td><td>مدى الحياة</td><td>طويل الأجل</td></tr>
+            <tr><td>اتخاذ القرار</td><td>فردي</td><td>جماعي</td><td>مشاركة وإجماع</td></tr>
+            <tr><td>المسؤولية</td><td>فردية</td><td>جماعية</td><td>فردية</td></tr>
+            <tr><td>الترقية</td><td>سريعة</td><td>بطيئة</td><td>مسارات معتدلة</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="sum5" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch5);margin-bottom:16px;">الفصل الخامس: التخطيط</h3>
+        <div class="key-point"><span class="star">★</span><span>التخطيط = عملية الإعداد المسبق للأنشطة والأعمال التي ينبغي على المنظمة القيام بها لتحقيق أهدافها</span></div>
+        <div class="key-point"><span class="star">★</span><span>يُعدّ التخطيط أهم وظيفة وأطول مدة من وظائف الإدارة</span></div>
+        <div class="concept-box"><h4>خطوات التخطيط الخمس</h4><ul class="concept-list"><li>1. التحليل الموقفي</li><li>2. تطوير البدائل من الأهداف والخطط</li><li>3. وضع خطة عمل</li><li>4. تنفيذ الخطة</li><li>5. المتابعة والرقابة</li></ul></div>
+        <div class="concept-box"><h4>أنواع الخطط من حيث الفترة الزمنية</h4><ul class="concept-list"><li>★ خطة طويلة الأمد: أكثر من 5 سنوات</li><li>★ خطة متوسطة المدى: من سنة إلى 5 سنوات</li><li>★ خطة قصيرة المدى: من شهور إلى سنة</li></ul></div>
+        <div class="concept-box"><h4>أنواع الخطط من حيث الشمولية</h4><ul class="concept-list"><li>خطة استراتيجية: يغطي نوع المنظمة ككل ويحدد الاتجاه العام لها</li><li>خطة ميدانية تكتيكية</li><li>★ خطة تشغيلية: الأكثر شيوعاً — تستخدم لتحقيق أهداف قصيرة المدى</li></ul></div>
+        <div class="concept-box"><h4>أنواع الخطط من حيث الاستخدام</h4><ul class="concept-list"><li>خطة أحادية الاستخدام: تستخدم لمرة واحدة</li><li>الخطة دائمة الاستخدام: السياسات، الإجراءات، القواعد، الموازنات، التخطيط</li></ul></div>
+        <div class="info-box">★ الموازنة: خطة تمتد غالباً لسنة ومعبرة عنها بشكل رقمي (مبالغ مالية، ساعات عمل)</div>
+        <div class="concept-box"><h4>الأهداف — مصطلحات مهمة</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+            <div style="background:rgba(26,86,164,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>Goals</strong><br>أهداف عامة غير مُقاسة</div>
+            <div style="background:rgba(47,158,68,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>Objectives</strong><br>أهداف مقاسة ومحددة بفترة زمنية</div>
+            <div style="background:rgba(26,86,164,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>الأهداف الاستراتيجية</strong><br>طويلة المدى: 5 سنوات وأكثر</div>
+            <div style="background:rgba(232,160,32,0.1);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>الأهداف التكتيكية</strong><br>متوسطة المدى: من سنة إلى 5 سنوات</div>
+          </div>
+          <div style="background:rgba(224,49,49,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);margin-top:10px;"><strong>الأهداف التشغيلية</strong>: قصيرة الأمد من شهور إلى سنة</div>
+        </div>
+      </div>
+    </div>
+    <div id="sum6" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch6);margin-bottom:16px;">الفصل السادس: التنظيم</h3>
+        <div class="key-point"><span class="star">★</span><span>التنظيم = عبارة عن توزيع المهام</span></div>
+        <div class="concept-box"><h4>نوعا التنظيم</h4><ul class="concept-list"><li><strong>رسمي:</strong> يقوم على أساس تنسيق إداري</li><li><strong>غير رسمي:</strong> شبكة من العلاقات الشخصية والاجتماعية</li></ul></div>
+        <div class="concept-box"><h4>أشكال الهياكل التنظيمية (9 أشكال)</h4><ul class="concept-list"><li>الهيكل الوظيفي</li><li>تنظيم على أساس الإنتاج</li><li>التنظيم على أساس المنتفعين</li><li>التنظيم الجغرافي</li><li>الهيكل على أساس الأقسام</li><li>الهيكل المصفوفي</li><li>الهيكل الحديث</li><li>هيكل الفريق</li><li>هيكل السلطة</li></ul></div>
+        <div class="info-box">
+          <strong>التفويض والمركزية — فروق مهمة:</strong><br>
+          ★ تختلف اللامركزية عن التفويض: التفويض تتم بموجب قواعد تشريعية وليست منحة، أما اللامركزية فالمفوَّض يبقى مسؤولاً عن نتائج الأعمال التي يفوض بها
+        </div>
+        <div class="concept-box"><h4>مقاييس اللامركزية (4 مقاييس)</h4><ul class="concept-list"><li>عدد القرارات المتخذة في المستويات الإدارية الدنيا والمتوسطة</li><li>أهمية القرارات المتخذة في المستويات الدنيا</li><li>عدد الوظائف التي يتخذها بشأنها إدارية دنيا</li><li>درجة الرقابة على عمليات اتخاذ القرارات من المستويات الإدارية الأقل</li></ul></div>
+      </div>
+    </div>
+    <div id="sum7" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch7);margin-bottom:16px;">الفصل السابع: التوجيه والقيادة</h3>
+        <div class="key-point"><span class="star">★</span><span>التوجيه = مرحلة من مراحل العملية الإدارية بهدف إصدار الأوامر وتقديم التعليمات والإرشادات للعاملين</span></div>
+        <div class="key-point"><span class="star">★</span><span>العناصر الأساسية للتوجيه: القيادة — التحفيز — الاتصال</span></div>
+        <div class="concept-box"><h4>أنماط القيادة الخمسة</h4><ul class="concept-list"><li><strong>1. الديكتاتوري:</strong> مشرف على جميع الأمور، يصدر الأوامر، لا يسمح بالمناقشة أو إبداء الرأي</li><li><strong>2. الأوتوقراطي:</strong> مشابه للديكتاتوري في مركزية السلطة لكنه يتمتع بثقة المرؤوسين وهو متابع وفعال</li><li><strong>3. المشاركة</strong></li><li><strong>4. الديمقراطي:</strong> لا يصدر القرار إلا بعد مناقشته مع المعنيين</li><li><strong>★ 5. الحرة الطليقة:</strong> تمتاز القيادة بإعطاء المرؤوسين الحرية الكاملة في تحديد المهمات والأنشطة</li></ul></div>
+        <div class="warn-box">★ الفرق الكبير بين الديكتاتوري والأوتوقراطي: الأوتوقراطي يشبه الكبير — يتمتع بثقة المرؤوسين وهو متابع وفعال، بينما الديكتاتوري لا يسمح بأي مناقشة</div>
+        <div class="concept-box"><h4>أنواع القادة (4 أنواع)</h4><ul class="concept-list"><li>القائد المعلم</li><li>★ القائد المستشار (الدور الثاني للقائد)</li><li>القائد القاضي</li><li>القائد المتحدث بالاسم</li></ul></div>
+        <div class="concept-box"><h4>مميزات القائد مقارنة بالمدير</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+            <div style="background:rgba(26,86,164,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>القائد</strong><ul class="concept-list" style="margin-top:8px;"><li>يركز على الأهداف الاستراتيجية</li><li>يشارك التابعية بتحمل مسؤولية القيادة</li><li>يسعى لتحقيق أهداف المنظمة</li></ul></div>
+            <div style="background:rgba(224,49,49,0.07);border-radius:8px;padding:10px;border:1px solid var(--border);"><strong>المدير</strong><ul class="concept-list" style="margin-top:8px;"><li>يدير نشاطات المنظمة</li><li>الانفراد بالسلطة والمحافظة عليها</li><li>يلتزم باللوائح والأنشطة</li></ul></div>
+          </div>
+        </div>
+        <div class="danger-box">★ لا يستطيع المدير أن يكون قائداً دون أن يمتلك مقومات القيادة، ولكن كل قائد هو مدير</div>
+      </div>
+    </div>
+    <div id="sum8" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch8);margin-bottom:16px;">الفصل الثامن: الرقابة</h3>
+        <div class="key-point"><span class="star">★</span><span>الرقابة = وسيلة لتحسين أداء المنظمة من خلال متابعة ومراقبة مستوى الأداء والإنجاز الفعلي ومقارنته بمعايير الأداء المستمدة من هذه الأهداف</span></div>
+        <div class="concept-box"><h4>مراحل العملية الرقابية الأربع (مهم جداً)</h4><ul class="concept-list"><li>1. تحديد الأهداف والمعايير</li><li>2. قياس الأداء الفعلي</li><li>3. مقارنة النتائج بالمعايير والأهداف</li><li>4. اتخاذ الإجراءات الصحيحة</li></ul></div>
+        <div class="info-box">★ الحاجة للفعل التصحيحي (الانحراف) = الأداء المرغوب ناقص الأداء الفعلي</div>
+        <div class="concept-box"><h4>أنواع الرقابة حسب موعد إجرائها</h4><ul class="concept-list"><li>الرقابة قبل التنفيذ (تعتمد على المدخلات)</li><li>الرقابة المتزامنة مع التنفيذ (تعتمد على العمليات المستمرة)</li><li>الرقابة بعد التنفيذ (تعتمد على المخرجات)</li></ul></div>
+        <div class="concept-box"><h4>وسائل الرقابة الإدارية</h4><ul class="concept-list"><li>التقارير الإدارية</li><li>الإشراف الإداري</li><li>المتابعة</li><li>الشكاوي</li></ul></div>
+      </div>
+    </div>
+    <div id="sum9" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch9);margin-bottom:16px;">الفصل التاسع: عملية اتخاذ القرار</h3>
+        <div class="key-point"><span class="star">★</span><span>تتضمن عملية اتخاذ القرار مجموعة من البدائل الإيجابية والسلبية أمام متخذ القرار (وليس الإيجابية فقط)</span></div>
+        <div class="concept-box"><h4>مراحل عملية اتخاذ القرار الخمس</h4><ul class="concept-list"><li>1. تحديد المشكلة وجمع البيانات وتحديدها</li><li>2. وضع البدائل وتطويرها</li><li>3. اختيار البديل الأنسب</li><li>4. تنفيذ (وهو حل المشكلة)</li><li>5. المتابعة والتقييم</li></ul></div>
+        <div class="concept-box"><h4>أنواع القرارات حسب درجة الهيكلة</h4>
+          <table class="comp-table" style="margin-top:8px;">
+            <tr><th>المستوى الإداري</th><th>نوع القرار</th><th>الخصائص</th></tr>
+            <tr><td>الإدارة العليا</td><td>غير مهيكلة</td><td>معقدة، ظروف متغيرة، تحتاج إبداع</td></tr>
+            <tr><td>الإدارة الوسطى</td><td>شبه مهيكلة</td><td>بين المهيكلة وغير المهيكلة</td></tr>
+            <tr><td>الإدارة الدنيا</td><td>مهيكلة</td><td>بسيطة، متكررة، ظروف ثابتة</td></tr>
+          </table>
+        </div>
+        <div class="concept-box"><h4>معايير اتخاذ القرار في ظل عدم التأكد</h4><ul class="concept-list"><li>معيار التفاؤل</li><li>معيار التشاؤم</li><li>معيار لابلاس</li></ul></div>
+      </div>
+    </div>
+    <div id="sum10" class="tab-content">
+      <div class="card">
+        <h3 style="color:var(--ch10);margin-bottom:16px;">الفصل العاشر: منهجية أجايل الحديثة</h3>
+        <div class="key-point"><span class="star">★</span><span>تطبيق منهجية أجايل في الأسواق المضطربة في وقتنا الحالي</span></div>
+        <div class="key-point"><span class="star">★</span><span>فرق أجايل الصغيرة تُصمَّم لتظل رشيدة وتتقأقلم مع الظروف المتغيرة</span></div>
+        <div class="key-point"><span class="star">★</span><span>تعتمد فرق أجايل على التغيير أكثر من اعتمادها على الالتزامات</span></div>
+        <div class="key-point"><span class="star">★</span><span>تُعرَّف منهجية أجايل كأنها منهج تدريجي</span></div>
+        <div class="key-point"><span class="star">★</span><span>الهدف الأسمى لأجايل: إرضاء العميل حتى لو كانت في أواخر المشروع</span></div>
+        <div class="concept-box"><h4>فوائد منهجية أجايل</h4><ul class="concept-list"><li>ثقة العميل وتقليل المخاطر</li><li>تسليم مبكر لمنتج أولي</li><li>توقع التكاليف (توقع وليس شيء مؤكد)</li></ul></div>
+        <div class="info-box">أجايل (Agile) هي منهجية إدارة حديثة تعتمد على المرونة والتكيف مع التغييرات بدلاً من الالتزام بخطة ثابتة، وتركز على إرضاء العميل بشكل مستمر.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHAPTERS ===== -->
+<section id="chapters" class="section">
+  <div class="page-header">
+    <h2>📖 الفصول الدراسية</h2>
+    <p>اختر فصلاً للدراسة التفصيلية</p>
+  </div>
+  <div id="chapter-list" class="grid-3"></div>
+  <div id="chapter-detail" style="display:none;margin-top:20px;">
+    <button class="btn btn-outline" onclick="backToChapters()" style="margin-bottom:16px;">← العودة للفصول</button>
+    <div id="chapter-detail-content"></div>
+  </div>
+</section>
+
+<!-- ===== FLASHCARDS ===== -->
+<section id="flashcards" class="section">
+  <div class="page-header">
+    <h2>🃏 البطاقات التعليمية</h2>
+    <p>اضغط على البطاقة لقلبها — <span id="fc-total-count">52</span> بطاقة من محتوى المادة</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+    <select id="fc-filter" onchange="filterFlashcards()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-family:inherit;font-size:0.88rem;">
+      <option value="all">جميع البطاقات</option>
+      <option value="definitions">التعريفات</option>
+      <option value="principles">المبادئ والنظريات</option>
+      <option value="numbers">الأرقام والتواريخ</option>
+      <option value="fav">المفضلة فقط</option>
+    </select>
+    <button class="btn btn-outline btn-sm" onclick="shuffleFlashcards()">🔀 عشوائي</button>
+    <button class="btn btn-outline btn-sm" onclick="resetFlashcards()">🔄 إعادة</button>
+    <span id="fc-fav-count" style="color:var(--text-muted);font-size:0.85rem;"></span>
+  </div>
+  <div class="flashcard-wrap" id="fc-wrap">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-face fc-front">
+        <div class="fc-label">السؤال / المفهوم</div>
+        <div class="fc-content" id="fc-question">...</div>
+        <div class="fc-hint">اضغط لرؤية الإجابة</div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-label">الإجابة</div>
+        <div class="fc-content" id="fc-answer">...</div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-counter" id="fc-counter">البطاقة 1 من 52</div>
+  <div class="fc-controls">
+    <button class="btn btn-outline" onclick="prevCard()">← السابق</button>
+    <button class="fc-fav-btn" id="fav-btn" onclick="toggleFav()" title="أضف للمفضلة">☆</button>
+    <button class="btn btn-primary" onclick="nextCard()">التالي →</button>
+  </div>
+  <div id="fc-reviewed" style="text-align:center;margin-top:10px;font-size:0.82rem;color:var(--text-muted);"></div>
+</section>
+
+<!-- ===== MCQ ===== -->
+<section id="mcq" class="section">
+  <div class="page-header">
+    <h2>❓ بنك أسئلة الاختيار من متعدد</h2>
+    <p>100 سؤال بمستوى جامعي مرتفع — مستخرجة من المحتوى الحقيقي</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+    <select id="mcq-ch-filter" onchange="renderMCQ()" style="padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-family:inherit;font-size:0.88rem;">
+      <option value="all">جميع الأسئلة</option>
+      <option value="0">الفصل الأول</option>
+      <option value="1">الفصل الثاني — كلاسيكية</option>
+      <option value="2">الفصل الثاني — إنسانية</option>
+      <option value="3">الفصل الثالث — الإدارة بالأهداف</option>
+      <option value="4">الفصل الرابع — ياباني وZ</option>
+      <option value="5">الفصل الخامس — التخطيط</option>
+      <option value="6">الفصل السادس — التنظيم</option>
+      <option value="7">الفصل السابع — التوجيه</option>
+      <option value="8">الفصل الثامن — الرقابة</option>
+      <option value="9">الفصل التاسع — القرار</option>
+    </select>
+    <button class="btn btn-outline btn-sm" onclick="shuffleMCQ()">🔀 خلط الأسئلة</button>
+    <button class="btn btn-outline btn-sm" onclick="resetMCQResults()">🔄 إعادة التصفير</button>
+    <span id="mcq-score-live" style="font-weight:700;color:var(--primary);font-size:0.9rem;"></span>
+  </div>
+  <div id="mcq-container"></div>
+</section>
+
+<!-- ===== TRUE FALSE ===== -->
+<section id="truefalse" class="section">
+  <div class="page-header">
+    <h2>✅ أسئلة صح وخطأ</h2>
+    <p>25 عبارة مستخرجة من المادة — اختر الإجابة الصحيحة</p>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+    <button class="btn btn-outline btn-sm" onclick="resetTFResults()">🔄 إعادة الجميع</button>
+    <span id="tf-score-live" style="font-weight:700;color:var(--primary);font-size:0.9rem;"></span>
+  </div>
+  <div id="tf-container"></div>
+</section>
+
+<!-- ===== COMPARISONS ===== -->
+<section id="comparisons" class="section">
+  <div class="page-header">
+    <h2>⚖️ المقارنات والفروق</h2>
+    <p>جميع المقارنات المهمة في المادة — مستخرجة من المحتوى الحقيقي</p>
+  </div>
+  <button class="btn btn-outline toggle-answers-btn" onclick="toggleAllAnswers()">👁️ إظهار / إخفاء التفاصيل</button>
+  <div id="comparisons-content"></div>
+</section>
+
+<!-- ===== REVIEW ===== -->
+<section id="review" class="section">
+  <div class="page-header">
+    <h2>⭐ المراجعة الذهبية</h2>
+    <p>أهم النقاط المتوقعة في الامتحان — للمراجعة السريعة قبل الامتحان</p>
+  </div>
+  <div class="card" style="background:linear-gradient(135deg,rgba(26,86,164,0.05),rgba(18,184,134,0.05));">
+    <div class="card-title" style="color:var(--secondary);">⚡ أرقام وتواريخ يجب حفظها</div>
+    <div style="overflow-x:auto;">
+      <table class="comp-table">
+        <tr><th>الموضوع</th><th>الرقم / المعلومة</th></tr>
+        <tr><td>كتاب فايول في الإدارة العامة والصناعية</td><td><strong>1916</strong></td></tr>
+        <tr><td>مبادئ فايول الإدارية</td><td><strong>12 مبدأ</strong></td></tr>
+        <tr><td>وظائف فايول الإدارية</td><td><strong>5 وظائف</strong></td></tr>
+        <tr><td>خصائص التنظيم البيروقراطي</td><td><strong>8 خصائص</strong></td></tr>
+        <tr><td>تجارب هوثورن (ألتون مايو)</td><td><strong>هارفارد 1927</strong></td></tr>
+        <tr><td>مدة تجارب التون مايو</td><td><strong>5 سنوات</strong></td></tr>
+        <tr><td>مستويات هرم ماسلو</td><td><strong>5 مستويات</strong></td></tr>
+        <tr><td>صدور كتاب ماكريجر X و Y</td><td><strong>1960</strong></td></tr>
+        <tr><td>أنماط القيادة</td><td><strong>5 أنماط</strong></td></tr>
+        <tr><td>مراحل الرقابة</td><td><strong>4 مراحل</strong></td></tr>
+        <tr><td>مراحل اتخاذ القرار</td><td><strong>5 مراحل</strong></td></tr>
+        <tr><td>خطوات التخطيط</td><td><strong>5 خطوات</strong></td></tr>
+        <tr><td>ارتفاع الإنتاج عند تايلور (فقط)</td><td><strong>بحدود 60%</strong></td></tr>
+        <tr><td>نظرية Z: طورها</td><td><strong>أوتشي / جامعة أوهان</strong></td></tr>
+        <tr><td>وظائف الإدارة الأربع</td><td><strong>تخطيط، تنظيم، توجيه، رقابة</strong></td></tr>
+        <tr><td>أنواع القادة</td><td><strong>4 أنواع</strong></td></tr>
+        <tr><td>مبادئ الإدارة بالأهداف (دعائم)</td><td><strong>6 دعائم</strong></td></tr>
+        <tr><td>مقاييس اللامركزية</td><td><strong>4 مقاييس</strong></td></tr>
+      </table>
+    </div>
+  </div>
+  <div id="review-items"></div>
+</section>
+
+<!-- ===== NUMBERS GAME ===== -->
+<section id="numgame" class="section">
+  <div class="page-header">
+    <h2>🎮 لعبة الأرقام والمطابقة</h2>
+    <p>اختبر معلوماتك في الأرقام والتواريخ والمبادئ</p>
+  </div>
+  <div class="game-card">
+    <div class="score-display">النقاط: <span id="game-score">0</span> / <span id="game-total">0</span></div>
+    <div id="game-progress-text" style="color:var(--text-muted);font-size:0.82rem;margin-bottom:16px;"></div>
+    <div class="game-question" id="game-q"></div>
+    <div class="game-options" id="game-opts"></div>
+    <div id="game-feedback" style="min-height:40px;font-size:0.9rem;font-weight:600;margin-bottom:10px;text-align:center;"></div>
+    <button class="btn btn-primary" id="game-next-btn" onclick="nextGameQuestion()" style="display:none;width:100%;justify-content:center;">السؤال التالي →</button>
+    <button class="btn btn-success" id="game-restart-btn" onclick="startGame()" style="margin-top:8px;width:100%;justify-content:center;">🎮 ابدأ / أعد اللعبة</button>
+  </div>
+</section>
+
+<!-- ===== SEARCH ===== -->
+<section id="search" class="section">
+  <div class="page-header">
+    <h2>🔍 البحث الذكي</h2>
+    <p>ابحث في جميع محتوى المادة — الفصول، التعاريف، الأسئلة، المقارنات</p>
+  </div>
+  <div style="position:relative;margin-bottom:20px;">
+    <input type="text" id="smart-search" placeholder="ابدأ الكتابة للبحث... مثال: تايلور، فايول، هرم ماسلو..." oninput="smartSearch(this.value)" style="width:100%;padding:14px 48px 14px 16px;border-radius:12px;border:2px solid var(--border);background:var(--card-bg);color:var(--text);font-size:1rem;font-family:inherit;outline:none;transition:border-color 0.2s;">
+    <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1.3rem;">🔍</span>
+  </div>
+  <div id="search-results"></div>
+</section>
+
+<!-- ===== EXAM ===== -->
+<section id="exam" class="section">
+  <div id="exam-start-screen">
+    <div class="page-header">
+      <h2>📝 وضع الامتحان الحقيقي</h2>
+      <p>محاكاة كاملة للامتحان الجامعي</p>
+    </div>
+    <div class="card" style="max-width:600px;margin:0 auto;text-align:center;">
+      <div style="font-size:3rem;margin-bottom:16px;">📝</div>
+      <h3 style="font-size:1.3rem;margin-bottom:12px;">محاكاة الامتحان النهائي</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;text-align:center;">
+        <div style="padding:14px;border-radius:10px;background:rgba(26,86,164,0.06);border:1px solid var(--border);">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--primary);">50</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);">سؤال عشوائي</div>
+        </div>
+        <div style="padding:14px;border-radius:10px;background:rgba(232,160,32,0.08);border:1px solid var(--border);">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--secondary);">60</div>
+          <div style="font-size:0.82rem;color:var(--text-muted);">دقيقة للحل</div>
+        </div>
+      </div>
+      <ul style="text-align:right;list-style:none;margin-bottom:20px;font-size:0.9rem;line-height:2;">
+        <li>✅ 50 سؤالاً عشوائياً من بنك الأسئلة</li>
+        <li>⏱️ مؤقت زمني 60 دقيقة</li>
+        <li>🚫 لا تظهر الإجابات أثناء الامتحان</li>
+        <li>📊 تقرير نتيجة كامل بعد الانتهاء</li>
+      </ul>
+      <button class="btn btn-primary btn-lg" onclick="startExam()" style="width:100%;justify-content:center;">ابدأ الامتحان</button>
+    </div>
+  </div>
+  <div id="exam-screen" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <span style="font-weight:700;color:var(--primary);">السؤال <span id="exam-q-num">1</span> من 50</span>
+        <div style="margin-top:6px;height:6px;background:var(--border);border-radius:3px;width:200px;"><div id="exam-progress-bar" style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent));width:2%;transition:width 0.3s;"></div></div>
+      </div>
+      <div class="exam-timer" id="exam-timer" style="font-size:1.5rem;margin:0;">60:00</div>
+      <button class="btn btn-danger btn-sm" onclick="submitExam()">إنهاء الامتحان</button>
+    </div>
+    <div id="exam-question-wrap"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;">
+      <button class="btn btn-outline" onclick="examPrev()">← السابق</button>
+      <button class="btn btn-primary" onclick="examNext()">التالي →</button>
+    </div>
+  </div>
+  <div id="exam-result-screen" style="display:none;">
+    <div class="result-box">
+      <div class="result-grade" id="result-grade">0%</div>
+      <div class="result-label" id="result-label">النتيجة</div>
+      <div class="grid-3" style="margin:20px 0;">
+        <div style="padding:14px;border-radius:10px;background:rgba(47,158,68,0.08);border:1px solid rgba(47,158,68,0.3);">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--success);" id="result-correct">0</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">✅ صحيح</div>
+        </div>
+        <div style="padding:14px;border-radius:10px;background:rgba(224,49,49,0.08);border:1px solid rgba(224,49,49,0.3);">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--danger);" id="result-wrong">0</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">❌ خاطئ</div>
+        </div>
+        <div style="padding:14px;border-radius:10px;background:rgba(26,86,164,0.08);border:1px solid rgba(26,86,164,0.3);">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--primary);" id="result-pct">0%</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">النسبة</div>
+        </div>
+      </div>
+      <div id="result-review-wrap" style="text-align:right;margin-top:20px;"></div>
+      <button class="btn btn-primary btn-lg" onclick="showSection('exam')" style="margin-top:16px;">إعادة الامتحان</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2026 ALEX_TIBA — جميع الحقوق محفوظة | منصة دراسة مادة أساسيات الإدارة BMN401</p>
+  <p style="margin-top:4px;font-size:0.75rem;">تم تطوير هذه المنصة لأغراض تعليمية — المحتوى مستخرج من مادة TIBA TEAM الدراسية</p>
+</footer>
+
+<script>
+// ======================================================
+// DATA
+// ======================================================
+
+const CHAPTERS_DATA = [
+  {num:1,title:"مفهوم الإدارة وأهميتها",color:"var(--ch1)",icon:"🏛️",desc:"تعريف الإدارة كعلم وفن، وظائفها الأربع، أهميتها في العالم المعاصر"},
+  {num:2,title:"مدارس الفكر الإداري — الكلاسيكية",color:"var(--ch2)",icon:"📐",desc:"تايلور والإدارة العلمية، فايول والمبادئ الـ12، ماكس فيبر والبيروقراطية"},
+  {num:3,title:"مدرسة العلاقات الإنسانية",color:"var(--ch3)",icon:"🤝",desc:"تجارب هوثورن، ماري فيوليت، هرم ماسلو، نظرية X و Y"},
+  {num:4,title:"الإدارة اليابانية ونظرية Z",color:"var(--ch4)",icon:"🌸",desc:"الإدارة اليابانية بعد الحرب العالمية، أوتشي ونظرية Z، الفروق بين النماذج"},
+  {num:5,title:"التخطيط",color:"var(--ch5)",icon:"🗺️",desc:"خطوات التخطيط الخمس، أنواع الخطط، Goals vs Objectives"},
+  {num:6,title:"التنظيم",color:"var(--ch6)",icon:"🏗️",desc:"أنواع التنظيم، الهياكل التنظيمية التسعة، التفويض واللامركزية"},
+  {num:7,title:"التوجيه والقيادة",color:"var(--ch7)",icon:"🎯",desc:"أنماط القيادة الخمسة، أنواع القادة، الفرق بين القائد والمدير"},
+  {num:8,title:"الرقابة",color:"var(--ch8)",icon:"🔍",desc:"تعريف الرقابة، مراحلها الأربع، أنواعها، وسائلها"},
+  {num:9,title:"عملية اتخاذ القرار",color:"var(--ch9)",icon:"🧠",desc:"مراحل اتخاذ القرار الخمس، أنواع القرارات، معايير عدم التأكد"},
+  {num:10,title:"منهجية أجايل الحديثة",color:"var(--ch10)",icon:"⚡",desc:"تعريف أجايل، مبادئها، فوائدها، تطبيقها في الأسواق المضطربة"}
+];
+
+const FLASHCARDS = [
+  {q:"ما تعريف الإدارة؟",a:"الإدارة = علم وفن في آنٍ واحد",cat:"definitions"},
+  {q:"ما المقصود بالإدارة كعلم؟",a:"معرفة منظمة يتم الوصول إليها بأساليب علمية",cat:"definitions"},
+  {q:"ما المقصود بالإدارة كفن؟",a:"القدرة الشخصية على تطبيق أفكار ونظريات بطريقة ذكية",cat:"definitions"},
+  {q:"ما وظائف الإدارة الأربع؟",a:"التنظيم — التخطيط — التوجيه — الرقابة",cat:"principles"},
+  {q:"من هو أبو الإدارة العلمية في القرن العشرين؟",a:"فريدريك تايلور",cat:"definitions"},
+  {q:"ما هدف تايلور من عمله؟",a:"التعرف على كيفية رفع إنتاجية العمل بأسلوب علمي",cat:"principles"},
+  {q:"ما نظرية الرجل الاقتصادي عند تايلور؟",a:"الإنسان بطبعه أناني وهدفه الوحيد الوصول إلى مكاسب مادية",cat:"definitions"},
+  {q:"في أي عام صدر كتاب هنري فايول؟",a:"عام 1916 في فرنسا",cat:"numbers"},
+  {q:"إلى كم قسم انقسم كتاب فايول؟",a:"ثلاثة أقسام: الكفايات الإدارية والتدريب — المبادئ العامة — الوظائف الإدارية",cat:"principles"},
+  {q:"كم وظيفة إدارية حدّدها فايول؟",a:"5 وظائف: التخطيط — التنظيم — القيادة — التنسيق — الرقابة",cat:"numbers"},
+  {q:"كم مبدأً إدارياً وضع فايول؟",a:"12 مبدأً إدارياً",cat:"numbers"},
+  {q:"ما المبدأ الذي جاء به فايول رداً على تايلور؟",a:"مبدأ وحدة القيادة والأوامر — رداً على فكرة التنظيم الوظيفي",cat:"principles"},
+  {q:"من هو أشهر مفكري المدرسة البيروقراطية؟",a:"ماكس فيبر",cat:"definitions"},
+  {q:"كم خاصية للتنظيم البيروقراطي عند فيبر؟",a:"8 خصائص: توزيع العمل، التخصص، تسلسل السلطة، تعيين الموظفين، تحديد الأداء، الترقية، الرشد، الاحتراف",cat:"numbers"},
+  {q:"أين أُقيمت تجارب هوثورن؟",a:"جامعة هارفارد عام 1927",cat:"numbers"},
+  {q:"كم سنة استمرت تجارب التون مايو؟",a:"خمس سنوات",cat:"numbers"},
+  {q:"من مدرستين تعد ماري فيوليت رائدة لهما؟",a:"المدرسة العلمية والمدرسة الإنسانية السلوكية",cat:"definitions"},
+  {q:"كيف رأت ماري فيوليت المسؤولية؟",a:"المسؤولية جماعية لا تقع على عاتق الشخص بذاته",cat:"principles"},
+  {q:"كم مستوى لهرم ماسلو؟ وما هي؟",a:"5 مستويات: الفسيولوجية — الأمن والسلامة — الاجتماعية — التقدير — تحقيق الذات",cat:"numbers"},
+  {q:"في أي عام صدر كتاب ماكريجر؟",a:"عام 1960",cat:"numbers"},
+  {q:"ما نظرية X عند ماكريجر؟",a:"الإنسان كسول سلبي لا يحب العمل ويحتاج رقابة وإكراه",cat:"definitions"},
+  {q:"ما نظرية Y عند ماكريجر؟",a:"الإنسان إيجابي يمتلك طاقات، يتحمل المسؤولية ويحب العمل",cat:"definitions"},
+  {q:"ما الهدف الرئيسي للإدارة بالأهداف؟",a:"مساعدة المنشأة أو جزء منها على تحقيق الأهداف والنتائج التي تضعها لنفسها",cat:"definitions"},
+  {q:"متى نشأت الإدارة اليابانية؟",a:"بعد الحرب العالمية الثانية — ظهرت من أواخر السبعينات وأوائل الثمانينات",cat:"numbers"},
+  {q:"من طوّر نظرية Z؟ ومن أي جامعة؟",a:"العالم الياباني ويليم أوتشي من جامعة أوهان",cat:"definitions"},
+  {q:"ما الفرق بين Goals و Objectives؟",a:"Goals = أهداف عامة غير مقاسة / Objectives = أهداف مقاسة ومحددة بفترة زمنية",cat:"definitions"},
+  {q:"ما تعريف التخطيط؟",a:"عملية الإعداد المسبق للأنشطة والأعمال التي ينبغي على المنظمة القيام بها لتحقيق أهدافها",cat:"definitions"},
+  {q:"كم خطوة للتخطيط؟",a:"5 خطوات: التحليل الموقفي — تطوير البدائل — وضع الخطة — تنفيذ الخطة — المتابعة والرقابة",cat:"numbers"},
+  {q:"ما الخطة طويلة الأمد؟",a:"أكثر من 5 سنوات",cat:"definitions"},
+  {q:"ما الخطة متوسطة المدى؟",a:"من سنة إلى 5 سنوات",cat:"definitions"},
+  {q:"ما تعريف الموازنة؟",a:"خطة تمتد غالباً لسنة ومعبرة عنها بشكل رقمي (مبالغ مالية، ساعات عمل)",cat:"definitions"},
+  {q:"ما تعريف التنظيم؟",a:"عبارة عن توزيع المهام",cat:"definitions"},
+  {q:"ما نوعا التنظيم؟",a:"رسمي: يقوم على تنسيق إداري / غير رسمي: شبكة من العلاقات الشخصية والاجتماعية",cat:"definitions"},
+  {q:"ما الفرق بين اللامركزية والتفويض؟",a:"التفويض: منح من الرئيس للمرؤوس مع بقاء المفوِّض مسؤولاً / اللامركزية: تتم بموجب قواعد تشريعية وليست منحة",cat:"definitions"},
+  {q:"ما تعريف التوجيه؟",a:"مرحلة من مراحل العملية الإدارية بهدف إصدار الأوامر وتقديم التعليمات والإرشادات للعاملين",cat:"definitions"},
+  {q:"ما العناصر الأساسية للتوجيه؟",a:"القيادة — التحفيز — الاتصال",cat:"principles"},
+  {q:"ما كم نمط من أنماط القيادة؟",a:"5 أنماط: الديكتاتوري — الأوتوقراطي — المشاركة — الديمقراطي — الحرة الطليقة",cat:"numbers"},
+  {q:"ما الفرق الكبير بين الديكتاتوري والأوتوقراطي؟",a:"الأوتوقراطي يتمتع بثقة المرؤوسين وهو متابع وفعال، بينما الديكتاتوري لا يسمح بأي مناقشة",cat:"definitions"},
+  {q:"ما الدور الثاني للقائد؟",a:"المستشار",cat:"principles"},
+  {q:"ما أنواع القادة الأربعة؟",a:"القائد المعلم — القائد المستشار — القائد القاضي — القائد المتحدث بالاسم",cat:"principles"},
+  {q:"هل يمكن للمدير أن يكون قائداً؟",a:"لا يستطيع المدير أن يكون قائداً دون مقومات القيادة، ولكن كل قائد هو مدير",cat:"principles"},
+  {q:"ما تعريف الرقابة؟",a:"وسيلة لتحسين أداء المنظمة من خلال متابعة مستوى الأداء الفعلي ومقارنته بمعايير الأداء",cat:"definitions"},
+  {q:"كم مرحلة للعملية الرقابية؟",a:"4 مراحل: تحديد المعايير — قياس الأداء — المقارنة — اتخاذ الإجراءات الصحيحة",cat:"numbers"},
+  {q:"ما معادلة الانحراف في الرقابة؟",a:"الحاجة للفعل التصحيحي (الانحراف) = الأداء المرغوب ناقص الأداء الفعلي",cat:"principles"},
+  {q:"ما أنواع الرقابة حسب موعد إجرائها؟",a:"قبل التنفيذ (مدخلات) — متزامنة مع التنفيذ (عمليات) — بعد التنفيذ (مخرجات)",cat:"principles"},
+  {q:"كم مرحلة لعملية اتخاذ القرار؟",a:"5 مراحل: تحديد المشكلة — وضع البدائل — اختيار البديل — التنفيذ — المتابعة والتقييم",cat:"numbers"},
+  {q:"ما نوع القرارات التي تتخذها الإدارة العليا؟",a:"قرارات غير مهيكلة (معقدة، ظروف متغيرة، تحتاج إبداع)",cat:"principles"},
+  {q:"ما نوع القرارات التي تتخذها الإدارة الدنيا؟",a:"قرارات مهيكلة (بسيطة، متكررة، ظروف ثابتة)",cat:"principles"},
+  {q:"ما تعريف منهجية أجايل؟",a:"منهج تدريجي يعتمد على التغيير أكثر من الالتزامات، يهدف إلى إرضاء العميل",cat:"definitions"},
+  {q:"ما الهدف الأسمى لمنهجية أجايل؟",a:"إرضاء العميل حتى لو كانت في أواخر المشروع",cat:"principles"},
+  {q:"ما فوائد منهجية أجايل؟",a:"ثقة العميل وتقليل المخاطر + تسليم مبكر لمنتج أولي + توقع التكاليف",cat:"principles"},
+  {q:"لماذا لم تتناسب طريقة تايلور مع الأجور؟",a:"الأجور ارتفعت إلى ثلاثة أضعاف لكن الإنتاج لم يرتفع إلا بحدود 60%",cat:"principles"}
+];
+
+const MCQ_QUESTIONS = [
+  {q:"يُعدّ الإنجاز الأول في تطوير الإدارة كعلم من اتخذ مبادئ تايلور:",opts:["البحوث العلمية فقط","الدراسات والبحوث العلمية فقط","كلاهما صحيح","لا شيء مما سبق"],ans:2,exp:"كلا البحوث العلمية والتجارب يُعدّان أساس الإدارة العلمية عند تايلور.",ch:1},
+  {q:"هدف تايلور من عمله هو:",opts:["تعيين العمال في أماكن مناسبة","التعرف على كيفية رفع إنتاجية العمل بأسلوب علمي","تقسيم المسؤولية بين الإدارة والعمال","إنشاء نقابات العمال"],ans:1,exp:"هدف تايلور الأساسي كان رفع إنتاجية العمل بأسلوب علمي.",ch:1},
+  {q:"صدر كتاب هنري فايول في الإدارة العامة والصناعية عام:",opts:["1900","1911","1916","1927"],ans:2,exp:"ظهر كتاب فايول في الإدارة العامة والصناعية في فرنسا عام 1916.",ch:1},
+  {q:"قسّم فايول الوظائف الإدارية إلى كم عنصر؟",opts:["3","4","5","6"],ans:2,exp:"قسّم فايول الوظائف الإدارية إلى 5 عناصر: التخطيط، التنظيم، القيادة، التنسيق، الرقابة.",ch:1},
+  {q:"يُعدّ ماكس فيبر من أهم مفكري:",opts:["المدرسة العلمية","المدرسة التنظيمية","المدرسة البيروقراطية","مدرسة العلاقات الإنسانية"],ans:2,exp:"ماكس فيبر هو أشهر مفكري المدرسة البيروقراطية.",ch:1},
+  {q:"أُقيمت تجارب هوثورن لألتون مايو في جامعة:",opts:["أوهان","هارفارد","ستانفورد","بركلي"],ans:1,exp:"أُقيمت تجارب هوثورن في جامعة هارفارد عام 1927.",ch:1},
+  {q:"مرتكزات هرم إبراهام ماسلو تتكون من:",opts:["3 مستويات","4 مستويات","5 مستويات","6 مستويات"],ans:2,exp:"هرم ماسلو يتكون من 5 مستويات: الفسيولوجية، الأمن، الاجتماعية، التقدير، تحقيق الذات.",ch:2},
+  {q:"صدر كتاب ماكريجر حول نظريتي X و Y عام:",opts:["1948","1955","1960","1965"],ans:2,exp:"صدر كتاب ماكريجر حول نظريتي X و Y عام 1960.",ch:2},
+  {q:"فكرة وحدة القيادة والأوامر لمن هي؟",opts:["لتايلور","لفايول","لماكس فيبر","للتون مايو"],ans:1,exp:"فكرة وحدة القيادة والأوامر لهنري فايول — جاءت رداً على فكرة التنظيم الوظيفي لتايلور.",ch:1},
+  {q:"تعتمد الإدارة المعاصرة في قراراتها على:",opts:["البحوث العلمية فقط","البرمجة الرياضية والإحصاء فقط","كل ما ذكر (البحوث، البرمجة، الإحصاء، الحواسيب)","الخبرة الشخصية فقط"],ans:2,exp:"تعتمد الإدارة المعاصرة على البحوث، البرمجة الرياضية، الإحصاء، ومنظومات الحواسيب.",ch:0},
+  {q:"ما الدور الثاني الذي يلعبه القائد؟",opts:["المعلم","المستشار","القاضي","المتحدث بالاسم"],ans:1,exp:"الدور الثاني للقائد هو المستشار.",ch:7},
+  {q:"مراحل العملية الرقابية تتكون من:",opts:["3 مراحل","4 مراحل","5 مراحل","6 مراحل"],ans:1,exp:"مراحل العملية الرقابية 4: تحديد المعايير، قياس الأداء، المقارنة، اتخاذ الإجراءات الصحيحة.",ch:8},
+  {q:"أنماط القيادة تتكون من:",opts:["3 أنماط","4 أنماط","5 أنماط","6 أنماط"],ans:2,exp:"أنماط القيادة 5: الديكتاتوري، الأوتوقراطي، المشاركة، الديمقراطي، الحرة الطليقة.",ch:7},
+  {q:"ما الذي يميز الإدارة اليابانية عن الأمريكية في اتخاذ القرارات؟",opts:["القرار الفردي","القرار الجماعي","القرار الديمقراطي","القرار المركزي"],ans:1,exp:"الإدارة اليابانية تتميز باتخاذ القرارات بشكل جماعي.",ch:4},
+  {q:"مراحل عملية اتخاذ القرار تتكون من:",opts:["3 مراحل","4 مراحل","5 مراحل","6 مراحل"],ans:2,exp:"مراحل اتخاذ القرار 5: تحديد المشكلة، وضع البدائل، اختيار البديل، التنفيذ، المتابعة.",ch:9},
+  {q:"ما الأساس الذي تعتمد عليه نظرية الرجل الاقتصادي؟",opts:["الإنسان يعمل لتحقيق أهداف اجتماعية","الإنسان بطبعه أناني يسعى للمكاسب المادية فقط","الإنسان يحب العمل ويسعى للتطور","الإنسان يعمل لتحقيق التوازن بين العمل والراحة"],ans:1,exp:"نظرية الرجل الاقتصادي تعتمد على أن الإنسان بطبعه أناني وهدفه الوحيد الوصول إلى مكاسب مادية.",ch:1},
+  {q:"نشأت الإدارة اليابانية وبدأت تظهر منذ:",opts:["أواخر الستينات وأوائل السبعينات","أواخر السبعينات وأوائل الثمانينات","أواخر الثمانينات وأوائل التسعينات","أوائل القرن الحادي والعشرين"],ans:1,exp:"بدأت الإدارة اليابانية تظهر منذ أواخر السبعينات وأوائل الثمانينات.",ch:4},
+  {q:"تُعدّ ماري فيوليت رائدة لـ:",opts:["المدرسة العلمية فقط","المدرسة الإنسانية السلوكية فقط","المدرسة التنظيمية فقط","المدرستين العلمية والإنسانية السلوكية"],ans:3,exp:"تُعدّ ماري فيوليت رائدة المدرستين: العلمية والإنسانية السلوكية.",ch:2},
+  {q:"أيّ من التالي يُعبّر عن أهداف مقاسة ومحددة بفترة زمنية؟",opts:["Goals","Objectives","Targets","Standards"],ans:1,exp:"Objectives = أهداف مقاسة ومحددة بفترة زمنية، بينما Goals = أهداف عامة غير مقاسة.",ch:5},
+  {q:"الخطة التشغيلية تستخدم لـ:",opts:["تحقيق أهداف طويلة المدى","تحقيق أهداف متوسطة المدى","تحقيق أهداف قصيرة المدى","لا شيء مما سبق"],ans:2,exp:"الخطة التشغيلية هي الأكثر شيوعاً وتستخدم لتحقيق أهداف قصيرة المدى.",ch:5},
+  {q:"الموازنة في التخطيط هي خطة تمتد غالباً لـ:",opts:["شهر","ستة أشهر","سنة","خمس سنوات"],ans:2,exp:"الموازنة هي خطة تمتد غالباً لسنة ومعبرة عنها بشكل رقمي.",ch:5},
+  {q:"ما ميزة الإدارة اليابانية فيما يخص الاستخدام الوظيفي؟",opts:["استخدام قصير الأجل","استخدام متوسط الأجل","وظيفة مدى الحياة","عقود سنوية متجددة"],ans:2,exp:"الإدارة اليابانية تعتمد على الوظيفة مدى الحياة.",ch:4},
+  {q:"النموذج الأمريكي يتميز بـ:",opts:["اتخاذ القرار الجماعي","المسؤولية الجماعية","اتخاذ القرار الفردي والمسؤولية الفردية","الترقية البطيئة"],ans:2,exp:"النموذج الأمريكي: استخدام قصير الأجل، قرار فردي، مسؤولية فردية، ترقية سريعة.",ch:4},
+  {q:"الإدارة الدنيا تتخذ قرارات:",opts:["غير مهيكلة","شبه مهيكلة","مهيكلة","إبداعية"],ans:2,exp:"الإدارة الدنيا تتخذ قرارات مهيكلة: بسيطة، متكررة، ظروف ثابتة.",ch:9},
+  {q:"الإدارة العليا تتخذ قرارات:",opts:["مهيكلة","شبه مهيكلة","غير مهيكلة","روتينية"],ans:2,exp:"الإدارة العليا تتخذ قرارات غير مهيكلة: معقدة، ظروف متغيرة، تحتاج إبداع.",ch:9},
+  {q:"ما أحد إيجابيات نظرية البيروقراطية عند فيبر؟",opts:["المرونة العالية","الاعتماد على الرشد والعقلانية","التركيز على المشاعر الإنسانية","عدم التقيد بالقوانين"],ans:1,exp:"إيجابية نظرية فيبر: الاعتماد على الرشد والعقلانية، وتطبق على المنظمات الحكومية الضخمة.",ch:1},
+  {q:"من أحد الانتقادات الموجهة للنظرية البيروقراطية؟",opts:["تشجيع المرونة","إهمال الجانب الإنساني","تمكين المستويات الدنيا","توزيع المسؤولية"],ans:1,exp:"من انتقادات النظرية البيروقراطية: إهمال العنصر الشخصي الإنساني.",ch:1},
+  {q:"وفق مبدأ التوجيه، ما العناصر الأساسية له؟",opts:["التخطيط والتنظيم","القيادة والتحفيز والاتصال","الرقابة والمتابعة","التنسيق والتقييم"],ans:1,exp:"العناصر الأساسية للتوجيه: القيادة — التحفيز — الاتصال.",ch:7},
+  {q:"الخطة الاستراتيجية تحدد:",opts:["الأهداف اليومية","الاتجاه العام للمنظمة ككل","أهداف قسم واحد فقط","الميزانية الشهرية"],ans:1,exp:"الخطة الاستراتيجية تغطي المنظمة ككل وتحدد الاتجاه العام لها.",ch:5},
+  {q:"التنظيم في الإدارة هو عبارة عن:",opts:["وضع الأهداف","توزيع المهام","إصدار الأوامر","قياس الأداء"],ans:1,exp:"التنظيم = عبارة عن توزيع المهام.",ch:6},
+  {q:"ما الذي يميز القائد الديمقراطي؟",opts:["يصدر القرار منفرداً","لا يسمح بالنقاش","لا يصدر القرار إلا بعد مناقشته مع المعنيين","يعطي المرؤوسين حرية كاملة"],ans:2,exp:"القائد الديمقراطي: لا يصدر القرار إلا بعد مناقشته مع المعنيين.",ch:7},
+  {q:"نظرية Z طوّرها:",opts:["إبراهام ماسلو","دوجلاس ماكريجر","ويليم أوتشي","ماري فيوليت"],ans:2,exp:"نظرية Z طوّرها العالم الياباني ويليم أوتشي من جامعة أوهان.",ch:4},
+  {q:"الرقابة قبل التنفيذ تعتمد على:",opts:["المخرجات","العمليات المستمرة","المدخلات","التقارير النهائية"],ans:2,exp:"الرقابة قبل التنفيذ تعتمد على المدخلات.",ch:8},
+  {q:"الرقابة بعد التنفيذ تعتمد على:",opts:["المدخلات","العمليات المستمرة","المخرجات","الميزانية"],ans:2,exp:"الرقابة بعد التنفيذ تعتمد على المخرجات.",ch:8},
+  {q:"التنظيم الرسمي يقوم على أساس:",opts:["العلاقات الشخصية","تنسيق إداري","الصداقات","التراتبية الاجتماعية"],ans:1,exp:"التنظيم الرسمي يقوم على أساس تنسيق إداري.",ch:6},
+  {q:"التنظيم غير الرسمي هو:",opts:["التنظيم الحكومي","شبكة من العلاقات الشخصية والاجتماعية","التنظيم المبني على اللوائح","الهيكل التنظيمي الرسمي"],ans:1,exp:"التنظيم غير الرسمي = شبكة من العلاقات الشخصية والاجتماعية.",ch:6},
+  {q:"الإشباع الجنسي والتكاثر تندرج في هرم ماسلو تحت:",opts:["الأمن والسلامة","الاحتياجات الاجتماعية","الاحتياجات الفسيولوجية","تحقيق الذات"],ans:2,exp:"الإشباع الجنسي والتكاثر تندرج تحت بند الحاجات الفسيولوجية (الأساسية).",ch:2},
+  {q:"تجارب التون مايو استمرت لمدة:",opts:["سنتين","ثلاث سنوات","أربع سنوات","خمس سنوات"],ans:3,exp:"استمرت تجارب التون مايو خمس سنوات.",ch:2},
+  {q:"أيّ من التالي يُعدّ من دعائم الإدارة بالأهداف؟",opts:["التخصص الكامل","المركزية الشديدة","الاتصال الفعال والمشاركة","القرار الفردي"],ans:2,exp:"دعائم الإدارة بالأهداف تشمل: الاتصال الفعال، المشاركة، الاعتراف بالعنصر الإنساني.",ch:3},
+  {q:"ما أهمية مبدأ وحدة القيادة والأوامر عند فايول؟",opts:["زيادة الإنتاج المادي","تجنب الارتباك والأوامر المتضاربة وتعزيز الانضباط","توزيع العمل بشكل عادل","تحفيز العمال مادياً"],ans:1,exp:"مبدأ وحدة القيادة والأوامر: هدفه تجنب الارتباك والأوامر المتضاربة وتعزيز الانضباط والكفاءة.",ch:1},
+  {q:"منهجية أجايل تُعرَّف كأنها:",opts:["منهج جامد","منهج تدريجي","منهج مركزي","منهج بيروقراطي"],ans:1,exp:"تُعرَّف منهجية أجايل كأنها منهج تدريجي.",ch:9},
+  {q:"أيّ وظيفة إدارية تُعدّ الأهم والأطول مدة؟",opts:["التنظيم","التوجيه","التخطيط","الرقابة"],ans:2,exp:"التخطيط يُعدّ أهم وظيفة وأطول مدة من وظائف الإدارة.",ch:5},
+  {q:"تعتمد القيم الاجتماعية للإدارة اليابانية على:",opts:["الاعتماد القصير على العمالة","التناوب السريع في الوظائف","الاعتماد الطويل على العمالة","الاستقدام الأجنبي"],ans:2,exp:"تعتمد القيم الاجتماعية للإدارة اليابانية على الاعتماد الطويل على العمالة.",ch:4},
+  {q:"مبدأ المدرسة الإنسانية أن الإنسان يندفع للعمل تحت تأثير:",opts:["الحوافز المالية فقط","العوامل النفسية","العقوبات والتهديدات","الضغوط الإدارية"],ans:1,exp:"مبدأ المدرسة الإنسانية: الإنسان يندفع للعمل تحت تأثير مجموعة من العوامل النفسية.",ch:2},
+  {q:"عملية اتخاذ القرار تتضمن:",opts:["بدائل إيجابية فقط","بدائل سلبية فقط","بدائل إيجابية وسلبية معاً","لا توجد بدائل"],ans:2,exp:"تتضمن عملية اتخاذ القرار مجموعة من البدائل الإيجابية والسلبية أمام متخذ القرار.",ch:9},
+  {q:"من يتمتع القائد الأوتوقراطي بثقة؟",opts:["الإدارة العليا فقط","المرؤوسين","العملاء","المستثمرين"],ans:1,exp:"القائد الأوتوقراطي يتمتع بثقة المرؤوسين وهو متابع وفعال ويضع الإنجاز في مقدمة اعتباراته.",ch:7},
+  {q:"ما الخاصية المميزة للقيادة الحرة الطليقة؟",opts:["مركزية الأوامر","إعطاء المرؤوسين الحرية الكاملة","التركيز على الرقابة","إصدار الأوامر المتضاربة"],ans:1,exp:"القيادة الحرة الطليقة: تمتاز بإعطاء المرؤوسين الحرية الكاملة في تحديد المهمات والأنشطة.",ch:7},
+  {q:"وحدة التوجيه عند فايول يعني:",opts:["وجود قائد واحد للجميع","أن يكون لكل مجموعة أنشطة هدف واحد ومدير واحد","حرية التصرف للمرؤوسين","تعدد الأوامر"],ans:1,exp:"وحدة التوجيه: مجموعة الأنشطة ذات الهدف الواحد يجب أن يقودها مدير واحد.",ch:1},
+  {q:"من أوجه نقد تايلور بعد تطبيق نظريته:",opts:["لم يرتفع الإنتاج أبداً","الأجور ارتفعت لكن الإنتاج لم يرتفع إلا بحدود 60%","ارتفعت الأجور والإنتاج بنفس النسبة","انخفضت الأجور والإنتاج"],ans:1,exp:"لم تتناسب طريقة تايلور: الأجور ارتفعت إلى ثلاثة أضعاف لكن الإنتاج لم يرتفع إلا بحدود 60%.",ch:1},
+  {q:"الأهداف الاستراتيجية هي:",opts:["قصيرة المدى (شهور إلى سنة)","متوسطة المدى (سنة إلى 5 سنوات)","طويلة المدى (5 سنوات وأكثر)","لا حدود زمنية لها"],ans:2,exp:"الأهداف الاستراتيجية = طويلة المدى من 5 سنوات وأكثر.",ch:5},
+  {q:"الأهداف التكتيكية هي:",opts:["أقل من شهر","من سنة إلى 5 سنوات","أكثر من 5 سنوات","سنة واحدة فقط"],ans:1,exp:"الأهداف التكتيكية = متوسطة المدى من سنة إلى 5 سنوات.",ch:5},
+  {q:"ما مبدأ اشتركت فيه المدرسة الكلاسيكية عموماً؟",opts:["التركيز على العوامل النفسية","التركيز على المادية والحوافز المشجعة","التركيز على الجانب الاجتماعي","التركيز على العلاقات الإنسانية"],ans:1,exp:"المدرسة الكلاسيكية تركز على المادية والحوافز المشجعة كمحرك أساسي للعمال.",ch:1},
+  {q:"أيّ من التالي يُعدّ من مقاييس اللامركزية؟",opts:["مستوى رواتب الموظفين","عدد القرارات المتخذة في المستويات الإدارية الدنيا","حجم الميزانية","عدد الفروع الجغرافية"],ans:1,exp:"من مقاييس اللامركزية: عدد القرارات المتخذة في المستويات الإدارية الدنيا والمتوسطة.",ch:6},
+  {q:"الهدف الأسمى في منهجية أجايل هو:",opts:["تقليل التكاليف","الالتزام بالجدول الزمني","إرضاء العميل","تعظيم الأرباح"],ans:2,exp:"الهدف الأسمى لمنهجية أجايل: إرضاء العميل حتى لو كان في أواخر المشروع.",ch:9},
+  {q:"نظرية Y عند ماكريجر ترى أن الإنسان:",opts:["كسول لا يحب العمل","يحتاج إكراه ورقابة شديدة","إيجابي يمتلك طاقات ويتحمل المسؤولية","لا يمكن الوثوق به"],ans:2,exp:"نظرية Y ترى أن الإنسان إيجابي يمتلك طاقات، يتحمل المسؤولية ويحب العمل.",ch:2},
+  {q:"ما الوسيلة الرقابية التي تعتمد على متابعة المشرف للعمل المنجز؟",opts:["التقارير الإدارية","الإشراف الإداري","الشكاوي","الميزانية"],ans:1,exp:"الإشراف الإداري هو إحدى وسائل الرقابة التي تعتمد على متابعة المشرف.",ch:8},
+  {q:"أيّ من التالي يُمثّل أعلى مستوى في هرم ماسلو؟",opts:["الأمن والسلامة","الاحتياجات الاجتماعية","التقدير","تحقيق الذات"],ans:3,exp:"تحقيق الذات هو أعلى مستوى في هرم ماسلو.",ch:2},
+  {q:"في حالة الكساد الاقتصادي، يتركز محور العمليات الإدارية على:",opts:["زيادة الإنتاج لأرقام قياسية","تحسين نوعية المنتج وتقليص تكاليفه","تنسيق الجهود لتسويق المنتجات وتصريفها","تعيين عمال جدد"],ans:2,exp:"في حالة الكساد: محور العمليات يتركز على تسويق المنتجات وتصريفها من قبل إدارة المبيعات.",ch:0},
+  {q:"أيّ من التالي من خصائص التنظيم البيروقراطي؟",opts:["المرونة والتكيف","الإبداع الحر","الرشد والعقلانية والاحتراف الوظيفي","إهمال القوانين"],ans:2,exp:"من خصائص التنظيم البيروقراطي: الرشد والعقلانية والاحتراف الوظيفي.",ch:1},
+  {q:"ما نتيجة تجارب هوثورن المتعلقة بالحوافز المادية؟",opts:["الحوافز المادية ضرورية لزيادة الإنتاج","الحوافز المادية لا تعني شيئاً بالنسبة لزيادة الإنتاج","الحوافز المادية أهم من العلاقات الإنسانية","الحوافز المادية تحفز 50% من العمال"],ans:1,exp:"من نتائج هوثورن: الاعتبارات المادية والحوافز التشجيعية لا تعني شيئاً بالنسبة لزيادة الإنتاج.",ch:2},
+  {q:"أيّ من التالي يُعدّ من فوائد منهجية أجايل؟",opts:["جمود الخطة","التسليم المتأخر للمنتج","تسليم مبكر لمنتج أولي وتقليل المخاطر","الالتزام الكامل بالمواصفات الأولية"],ans:2,exp:"من فوائد أجايل: ثقة العميل وتقليل المخاطر + تسليم مبكر لمنتج أولي + توقع التكاليف.",ch:9},
+  {q:"كل قائد هو مدير، لكن:",opts:["كل مدير هو قائد","ليس كل مدير قائداً","المدير أفضل من القائد","القائد لا يستطيع الإدارة"],ans:1,exp:"★ لا يستطيع المدير أن يكون قائداً دون مقومات القيادة، ولكن كل قائد هو مدير.",ch:7},
+  {q:"الخطة أحادية الاستخدام تُستخدم لـ:",opts:["أغراض متكررة ومستمرة","مرة واحدة فقط","أهداف سنوية","أهداف استراتيجية"],ans:1,exp:"الخطة أحادية الاستخدام تستخدم لمرة واحدة فقط.",ch:5},
+  {q:"التفويض يعني:",opts:["نقل المسؤولية نهائياً للمرؤوس","منح المرؤوس صلاحية إدارة عمل معين مع بقاء الرئيس مسؤولاً","اتخاذ القرار جماعياً","إعادة توزيع الهيكل التنظيمي"],ans:1,exp:"التفويض: يتم بموجبه منح الرئيس مرؤوسه لإدارة عمل معين، والمفوَّض يبقى مسؤولاً عن النتائج.",ch:6},
+  {q:"التوجيه يهدف إلى:",opts:["وضع الخطط الاستراتيجية","إصدار الأوامر وتقديم التعليمات والإرشادات للعاملين","قياس الأداء الفعلي","توزيع المهام على الأقسام"],ans:1,exp:"التوجيه = مرحلة من مراحل العملية الإدارية بهدف إصدار الأوامر وتقديم التعليمات والإرشادات.",ch:7},
+  {q:"الهيكل المصفوفي هو أحد أشكال:",opts:["التخطيط","الهياكل التنظيمية","الرقابة","القيادة"],ans:1,exp:"الهيكل المصفوفي هو أحد أشكال الهياكل التنظيمية التسعة.",ch:6},
+  {q:"عند منح العاملين حرية التصرف أثناء تأدية المهام، يكون ذلك نتيجة تجارب:",opts:["تايلور","فايول","هوثورن (التون مايو)","ماكس فيبر"],ans:2,exp:"من نتائج تجارب هوثورن: ضرورة منح العاملين حرية التصرف أثناء تأدية المهام.",ch:2},
+  {q:"نظرية Z تجمع بين ممارسات:",opts:["الإدارة الأوروبية والأفريقية","الإدارة اليابانية والأمريكية","الإدارة البريطانية واليابانية","الإدارة الكلاسيكية والحديثة"],ans:1,exp:"هدف نظرية Z: تكامل الممارسات الإدارية اليابانية والأمريكية.",ch:4},
+  {q:"معيار التفاؤل في اتخاذ القرارات يُستخدم في ظل:",opts:["التأكد التام","المخاطرة المحسوبة","عدم التأكد","البيانات الكاملة"],ans:2,exp:"معايير التفاؤل والتشاؤم ولابلاس تُستخدم في اتخاذ القرار في ظل عدم التأكد.",ch:9},
+  {q:"أيّ المدارس الإدارية ركزت على المستويات الدنيا والعمال؟",opts:["المدرسة التنظيمية (فايول)","المدرسة العلمية (تايلور)","المدرسة البيروقراطية (فيبر)","مدرسة العلاقات الإنسانية"],ans:1,exp:"المدرسة العلمية (تايلور) ركزت على العمال والمستويات الدنيا.",ch:1},
+  {q:"ما المقصود بـ'الهوة' في سياق أهمية الإدارة؟",opts:["فجوة جغرافية بين المدن","الفارق بين الدول النامية والمتقدمة","انعدام التواصل بين الإدارة والعمال","الفجوة في الرواتب"],ans:1,exp:"الهوة = الفجوة بين جبلين أو شيئين — تعني الفارق بين الدول النامية والمتقدمة.",ch:0},
+  {q:"استقرار العاملين هو أحد مبادئ:",opts:["تايلور فقط","فايول الإداريين الـ12","ماكس فيبر البيروقراطية","التون مايو"],ans:1,exp:"استقرار العاملين هو المبدأ العاشر من المبادئ الـ12 لفايول.",ch:1},
+  {q:"من السمات التي ركزت عليها ماري فيوليت:",opts:["مركزية السلطة","جماعية المسؤولية والتنسيق","الفردية في العمل","الأجور كمحفز رئيسي"],ans:1,exp:"ماري فيوليت ركزت على: استبعاد المركزية السلطوية، جماعية المسؤولية، استخدام السلطة، التنسيق.",ch:2},
+  {q:"أيّ من التالي يصف القائد المعلم؟",opts:["يصدر أحكاماً وقرارات","يقوم بتعليم وتطوير المرؤوسين","يمثل المنظمة أمام الجمهور","يقدم نصائح واستشارات"],ans:1,exp:"القائد المعلم هو النوع الأول من أنواع القادة الأربعة — يركز على تعليم وتطوير المرؤوسين.",ch:7},
+  {q:"حالة الرواج الاقتصادي تسعى فيها الإدارة إلى:",opts:["تصريف المنتجات الفائضة","الوصول لأرقام قياسية في زيادة الإنتاج","تقليص التكاليف","تخفيض الأسعار"],ans:1,exp:"في حالة الرواج: تسعى إدارة الإنتاج لإيجاد وسائل تحسين التنظيم للوصول لأرقام قياسية في زيادة الإنتاج.",ch:0},
+  {q:"خطوة التحليل الموقفي في التخطيط تأتي في:",opts:["نهاية عملية التخطيط","المرحلة الثالثة","أول خطوة في التخطيط","المرحلة الرابعة"],ans:2,exp:"التحليل الموقفي هو الخطوة الأولى في عملية التخطيط الخمس.",ch:5},
+  {q:"الاختيار العلمي السليم للعمال هو أحد مبادئ:",opts:["فايول","تايلور","ماكس فيبر","أوتشي"],ans:1,exp:"الاختيار العلمي السليم للعمال للعمل على أسس دقيقة من المهارة والقدرة هو أحد مبادئ تايلور.",ch:1},
+  {q:"أيّ المبادئ يتعلق بتغليب المصلحة العامة على الخاصة في مبادئ فايول؟",opts:["المساواة والعدل","التدرج السلطوي","تغليب المصلحة العامة على الفردية","روح الجماعة"],ans:2,exp:"المبدأ الخامس لفايول هو تغليب المصلحة العامة على المصلحة الفردية.",ch:1},
+  {q:"مبدأ روح الجماعة عند فايول يهدف إلى:",opts:["تقليص عدد الموظفين","تعزيز التعاون وروح الفريق بين العاملين","مركزة السلطة في يد الإدارة","تقليل التواصل بين الأقسام"],ans:1,exp:"مبدأ روح الجماعة (الثاني عشر لفايول) يهدف إلى تعزيز التعاون وروح الفريق بين العاملين.",ch:1},
+  {q:"كلما ارتقى الإنسان في هرم ماسلو:",opts:["تقل رغبته في تحصيل المزيد","تزداد رغبته في تحصيل المزيد","تتساوى رغباته","يتوقف عند تحقيق الذات"],ans:1,exp:"كلما ارتقى الإنسان وتقدم في مجال إرضاء الحاجات كلما زادت رغبته في تحصيل المزيد.",ch:2},
+  {q:"مبدأ المبادرة في مبادئ فايول يعني:",opts:["إصدار الأوامر المركزية","تشجيع العاملين على اقتراح الأفكار وتنفيذها","تقليص صلاحيات المرؤوسين","الترقية على أساس الأقدمية"],ans:1,exp:"مبدأ المبادرة (الحادي عشر لفايول) يعني تشجيع العاملين على اقتراح الأفكار وتنفيذها.",ch:1},
+  {q:"أيّ من التالي يُعدّ من أنواع الهياكل التنظيمية؟",opts:["الهيكل المصفوفي والهيكل الوظيفي","الرقابة الذاتية والرقابة الخارجية","القرارات المهيكلة وغير المهيكلة","الرقابة القبلية والبعدية"],ans:0,exp:"من أنواع الهياكل التنظيمية: الهيكل المصفوفي، الهيكل الوظيفي، وغيرها (9 أشكال إجمالاً).",ch:6},
+  {q:"أيّ من التالي ليس من خطوات التخطيط؟",opts:["التحليل الموقفي","تطوير البدائل","تنفيذ الخطة","إصدار الأوامر للعمال"],ans:3,exp:"خطوات التخطيط 5: التحليل الموقفي، تطوير البدائل، وضع الخطة، التنفيذ، المتابعة — إصدار الأوامر ليس خطوة.",ch:5},
+  {q:"ما معيار لابلاس في اتخاذ القرار؟",opts:["افتراض أسوأ حالة ممكنة","افتراض أفضل حالة ممكنة","إعطاء احتمالات متساوية لكل البدائل","اختيار البديل الأعلى ربحاً"],ans:2,exp:"معيار لابلاس يُستخدم في ظل عدم التأكد ويعطي احتمالات متساوية لجميع البدائل.",ch:9},
+  {q:"التوجيه في الإدارة الحديثة يشمل:",opts:["التخطيط والتنظيم فقط","القيادة والتحفيز والاتصال","الرقابة والمتابعة فقط","توزيع المهام فقط"],ans:1,exp:"عناصر التوجيه الأساسية: القيادة — التحفيز — الاتصال.",ch:7},
+  {q:"أيّ من التالي يُعدّ من وسائل الرقابة الإدارية؟",opts:["وضع الأهداف","التقارير الإدارية والإشراف والمتابعة والشكاوي","التخطيط الاستراتيجي","اتخاذ القرار الجماعي"],ans:1,exp:"وسائل الرقابة الإدارية: التقارير الإدارية، الإشراف الإداري، المتابعة، الشكاوي.",ch:8},
+  {q:"نموذج نظرية Z يتميز بـ:",opts:["المسؤولية الجماعية","المسؤولية الفردية مع اتخاذ القرار بالمشاركة","الاستخدام القصير الأجل","الترقية السريعة"],ans:1,exp:"نموذج Z: استخدام طويل الأجل، اتخاذ القرار بالمشاركة والإجماع، المسؤولية الفردية.",ch:4},
+  {q:"ما أهمية الاتصال الفعال في الإدارة بالأهداف؟",opts:["ليس له دور يُذكر","يُعدّ ركيزة أساسية من ركائز الإدارة بالأهداف","يُستخدم فقط في التواصل الخارجي","يُعيق اتخاذ القرار"],ans:1,exp:"الاتصال الفعال هو إحدى الدعائم الست للإدارة بالأهداف.",ch:3},
+  {q:"من أحد سلبيات البيروقراطية بسبب مبدأ الترقية:",opts:["ارتفاع الإنتاجية","إهمال الكفاءات وانخفاضها","تطوير المهارات","زيادة الابتكار"],ans:1,exp:"من سلبيات البيروقراطية: إهمال الكفاءات وانخفاضها بسبب مبدأ الترقية.",ch:1},
+  {q:"الإدارة بالأهداف تعتمد على التشارك على مستوى:",opts:["الإدارة العليا فقط","الإدارة الدنيا فقط","كافة المستويات الإدارية","خارج المنظمة فقط"],ans:2,exp:"تعتمد الإدارة بالأهداف على التشارك على كافة المستويات الإدارية.",ch:3}
+];
+
+const TF_QUESTIONS = [
+  {s:"الإدارة علم وفن في آن واحد",ans:true,exp:"صحيح — الإدارة = علم وفن في آنٍ واحد (تعريف أساسي)"},
+  {s:"يُعدّ فريدريك تايلور أبا الإدارة العلمية في القرن العشرين",ans:true,exp:"صحيح — تايلور هو أبو الإدارة العلمية"},
+  {s:"تناسبت طريقة تايلور مع الإنتاج والأجور فارتفعت الأجور ثلاثة أضعاف مع ارتفاع مماثل للإنتاج",ans:false,exp:"خطأ — الأجور ارتفعت ثلاثة أضعاف لكن الإنتاج لم يرتفع إلا بحدود 60%"},
+  {s:"ظهر كتاب هنري فايول في الإدارة العامة والصناعية عام 1916 في فرنسا",ans:true,exp:"صحيح — ظهر الكتاب عام 1916 في فرنسا"},
+  {s:"قسّم فايول الوظائف الإدارية إلى أربعة عناصر",ans:false,exp:"خطأ — قسّمها إلى خمسة عناصر: التخطيط، التنظيم، القيادة، التنسيق، الرقابة"},
+  {s:"ركزت المدرسة التنظيمية على النشاطات الإدارية خاصة في المستويات العليا عكس تايلور الذي ركز على العمال",ans:true,exp:"صحيح — المدرسة التنظيمية ركزت على المستويات العليا عكس تايلور"},
+  {s:"كانت فكرة وحدة القيادة والأوامر للمفكر فريدريك تايلور",ans:false,exp:"خطأ — هي لهنري فايول، جاءت رداً على فكرة التنظيم الوظيفي لتايلور"},
+  {s:"ركزت المدرسة التنظيمية على المستويات الدنيا شأنها شأن الإدارة العلمية",ans:false,exp:"خطأ — ركزت المدرسة التنظيمية على المستويات العليا عكس الإدارة العلمية لتايلور"},
+  {s:"يُعدّ ماكس فيبر من أهم مفكري المدرسة البيروقراطية",ans:true,exp:"صحيح — ماكس فيبر أشهر مفكري المدرسة البيروقراطية"},
+  {s:"يُعدّ ماكس فيبر أشهر رواد الإدارة العلمية",ans:false,exp:"خطأ — ماكس فيبر أشهر رواد الإدارة البيروقراطية وليس العلمية"},
+  {s:"تقترن حركة العلاقات الإنسانية بالكاتب الاسترالي التون مايو",ans:true,exp:"صحيح — التون مايو هو رائد حركة العلاقات الإنسانية"},
+  {s:"الروابط المادية والحوافز المادية أقوى من الروابط الإنسانية",ans:false,exp:"خطأ — الروابط الإنسانية أقوى بكثير من الروابط المادية والحوافز المادية"},
+  {s:"تُعدّ ماري فيوليت من رواد المدرسة العلمية فقط",ans:false,exp:"خطأ — تُعدّ من رواد المدرستين: العلمية والإنسانية السلوكية"},
+  {s:"ترى ماري فيوليت أن المسؤولية تقع على عاتق الشخص بذاته",ans:false,exp:"خطأ — رأت أن المسؤولية جماعية لا تقع على عاتق الشخص وحده"},
+  {s:"صدر كتاب ماكريجر عام 1960",ans:true,exp:"صحيح — صدر كتاب ماكريجر عام 1960"},
+  {s:"نظرية X ترى أن الإنسان بطبيعته نشيط وإيجابي ومحب للعمل وطموح",ans:false,exp:"خطأ — نظرية X وصفت الطبيعة بالكسل والسلبية وكرهها للعمل وضعف الطموح"},
+  {s:"تعتمد الإدارة بالأهداف على عدم التشارك على مستوى الرؤوس",ans:false,exp:"خطأ — تعتمد الإدارة بالأهداف على التشارك على كافة المستويات الإدارية"},
+  {s:"نشأت الإدارة اليابانية بعد الحرب العالمية الثانية",ans:true,exp:"صحيح — نشأت بعد الحرب العالمية الثانية"},
+  {s:"تعتمد القيم الاجتماعية للإدارة اليابانية على الاعتماد القصير على العمالة",ans:false,exp:"خطأ — تعتمد على الاعتماد الطويل على العمالة (الوظيفة مدى الحياة)"},
+  {s:"لا فرق بين اللامركزية والتفويض",ans:false,exp:"خطأ — تختلف اللامركزية عن التفويض: التفويض تتم بموجب قواعد تشريعية وليست منحة"},
+  {s:"العملية الرقابية تحتوي على ثلاث مراحل",ans:false,exp:"خطأ — تحتوي على أربع مراحل"},
+  {s:"تتضمن عملية اتخاذ القرار مجموعة من البدائل الإيجابية فقط",ans:false,exp:"خطأ — تتضمن البدائل الإيجابية والسلبية معاً"},
+  {s:"المستوى الخامس في القيادة هو أدنى مستوى",ans:false,exp:"خطأ — المستوى الخامس في القيادة هو أعلى مستوى"},
+  {s:"يُعرَّف منهج أجايل كأنه منهج تدريجي",ans:true,exp:"صحيح — تُعرَّف منهجية أجايل كأنها منهج تدريجي"},
+  {s:"الموازنة هي خطة تمتد غالباً لأكثر من سنة",ans:false,exp:"خطأ — الموازنة خطة تمتد غالباً لسنة فقط ومعبرة عنها بشكل رقمي"}
+];
+
+const REVIEW_ITEMS = [
+  "★ الإدارة = علم وفن",
+  "★ وظائف الإدارة = تنظيم + تخطيط + توجيه + رقابة",
+  "★ تايلور = أبو الإدارة العلمية في القرن العشرين",
+  "★ فايول = كتابه 1916 في فرنسا / المبادئ الـ12 / الوظائف الإدارية الخمسة",
+  "★ ماكس فيبر = المدرسة البيروقراطية",
+  "★ فكرة وحدة القيادة والأوامر = لفايول (ليس لتايلور)",
+  "★ المدرسة التنظيمية ركزت على المستويات العليا عكس تايلور الذي ركز على العمال",
+  "★ تجارب هوثورن = التون مايو عام 1927 في جامعة هارفارد",
+  "★ الروابط الإنسانية أقوى من الروابط المادية والحوافز المادية",
+  "★ ماري فيوليت = رائدة المدرستين العلمية والإنسانية السلوكية",
+  "★ المسؤولية عند فيوليت = جماعية",
+  "★ هرم ماسلو = 5 مستويات (فسيولوجية — أمن — اجتماعية — تقدير — تحقيق الذات)",
+  "★ الإشباع الجنسي والتكاثر = يندرج تحت الحاجات الفسيولوجية",
+  "★ نظرية X و Y = ماكريجر 1960",
+  "★ نظرية X = كسل وسلبية / نظرية Y = إيجابية وطاقات وتحمل المسؤولية",
+  "★ الإدارة بالأهداف: تشارك على كافة المستويات — 6 دعائم",
+  "★ Goals = عامة غير مقاسة / Objectives = مقاسة ومحددة زمنياً",
+  "★ الإدارة اليابانية: نشأت بعد الحرب العالمية الثانية — الوظيفة مدى الحياة",
+  "★ نظرية Z = أوتشي من جامعة أوهان — تكامل الياباني والأمريكي",
+  "★ منهجية أجايل = منهج تدريجي / الهدف الأسمى إرضاء العميل",
+  "★ التخطيط = أهم وأطول وظيفة إدارية — 5 خطوات",
+  "★ الموازنة = خطة سنوية بأرقام (مبالغ أو ساعات عمل)",
+  "★ مراحل الرقابة = 4 مراحل",
+  "★ أنواع القيادة = 5: ديكتاتوري، أوتوقراطي، مشاركة، ديمقراطي، حرة طليقة",
+  "★ الفرق بين الديكتاتوري والأوتوقراطي: الأوتوقراطي يحظى بثقة المرؤوسين",
+  "★ الدور الثاني للقائد = المستشار",
+  "★ كل قائد هو مدير ولكن ليس كل مدير قائد",
+  "★ عملية اتخاذ القرار = بدائل إيجابية وسلبية معاً",
+  "★ مراحل اتخاذ القرار = 5 مراحل",
+  "★ الإدارة العليا = قرارات غير مهيكلة / الوسطى = شبه مهيكلة / الدنيا = مهيكلة",
+  "★ أجور تايلور ارتفعت 3 أضعاف لكن الإنتاج رفع 60% فقط",
+  "★ مبادئ فايول = 12 مبدأً — خصائص فيبر = 8 خصائص",
+  "★ تجارب هوثورن استمرت 5 سنوات",
+  "★ التنظيم = توزيع المهام / الهياكل التنظيمية = 9 أشكال",
+  "★ التفويض: المفوِّض يبقى مسؤولاً / اللامركزية: بموجب قواعد تشريعية"
+];
+
+const GAME_QUESTIONS = [
+  {q:"كم مبدأً وضع هنري فايول في الإدارة؟",opts:["10","12","8","14"],ans:1},
+  {q:"في أي عام ظهر كتاب فايول في الإدارة العامة والصناعية؟",opts:["1900","1911","1916","1927"],ans:2},
+  {q:"كم وظيفة إدارية حدّدها فايول؟",opts:["3","4","5","6"],ans:2},
+  {q:"كم خاصية للتنظيم البيروقراطي عند ماكس فيبر؟",opts:["5","6","7","8"],ans:3},
+  {q:"في أي عام أُقيمت تجارب هوثورن؟",opts:["1920","1924","1927","1930"],ans:2},
+  {q:"كم سنة استمرت تجارب التون مايو؟",opts:["3","4","5","6"],ans:2},
+  {q:"كم مستوى لهرم إبراهام ماسلو؟",opts:["3","4","5","6"],ans:2},
+  {q:"في أي عام صدر كتاب ماكريجر عن نظريتي X و Y؟",opts:["1950","1955","1960","1965"],ans:2},
+  {q:"كم نمطاً من أنماط القيادة حدّدها العلماء؟",opts:["3","4","5","6"],ans:2},
+  {q:"كم مرحلة للعملية الرقابية؟",opts:["3","4","5","6"],ans:1},
+  {q:"كم مرحلة لعملية اتخاذ القرار؟",opts:["3","4","5","6"],ans:2},
+  {q:"كم خطوة في عملية التخطيط؟",opts:["3","4","5","6"],ans:2},
+  {q:"بكم بالمئة ارتفع الإنتاج عند تطبيق نظرية تايلور؟",opts:["40%","60%","80%","300%"],ans:1},
+  {q:"المدرسة الكلاسيكية تنقسم إلى كم مدرسة فرعية؟",opts:["2","3","4","5"],ans:1},
+  {q:"كم نوعاً من أنواع القادة في الإدارة؟",opts:["3","4","5","6"],ans:1},
+  {q:"الإدارة اليابانية بدأت تظهر في أواخر السبعينات وهذا القرن:",opts:["القرن التاسع عشر","القرن العشرين","القرن الحادي والعشرين","القرن الثامن عشر"],ans:1},
+  {q:"خطة طويلة الأمد تمتد لأكثر من كم سنة؟",opts:["3","5","7","10"],ans:1},
+  {q:"الموازنة خطة تمتد لـ:",opts:["شهر","6 أشهر","سنة","5 سنوات"],ans:2},
+  {q:"الأهداف التكتيكية من كم إلى كم سنة؟",opts:["شهور-سنة","سنة-5 سنوات","5-10 سنوات","لا حد لها"],ans:1},
+  {q:"الدعائم الأساسية للإدارة بالأهداف كم دعامة؟",opts:["4","5","6","7"],ans:2}
+];
+
+// ======================================================
+// STATE
+// ======================================================
+let state = {
+  currentFC: 0,
+  filteredFC: [...FLASHCARDS],
+  favs: [],
+  reviewed: [],
+  mcqAnswers: {},
+  tfAnswers: {},
+  examData: {questions:[], answers:{}, timer:null, time:3600, current:0},
+  gameScore: 0, gameTotal: 0, gameIdx: 0, gameOrder: [],
+  darkMode: false,
+  chaptersCompleted: {}
+};
+
+function saveState() {
+  localStorage.setItem('bmn401_state', JSON.stringify({
+    favs: state.favs,
+    reviewed: state.reviewed,
+    mcqAnswers: state.mcqAnswers,
+    tfAnswers: state.tfAnswers,
+    chaptersCompleted: state.chaptersCompleted,
+    darkMode: state.darkMode,
+    examCount: state.examCount || 0,
+    mcqCorrect: state.mcqCorrect || 0,
+    mcqWrong: state.mcqWrong || 0
+  }));
+}
+
+function loadState() {
+  const s = localStorage.getItem('bmn401_state');
+  if (s) {
+    const d = JSON.parse(s);
+    state.favs = d.favs || [];
+    state.reviewed = d.reviewed || [];
+    state.mcqAnswers = d.mcqAnswers || {};
+    state.tfAnswers = d.tfAnswers || {};
+    state.chaptersCompleted = d.chaptersCompleted || {};
+    state.darkMode = d.darkMode || false;
+    state.examCount = d.examCount || 0;
+    state.mcqCorrect = d.mcqCorrect || 0;
+    state.mcqWrong = d.mcqWrong || 0;
+  }
+}
+
+// ======================================================
+// THEME
+// ======================================================
+function toggleTheme() {
+  state.darkMode = !state.darkMode;
+  document.documentElement.setAttribute('data-theme', state.darkMode ? 'dark' : 'light');
+  document.getElementById('theme-btn').textContent = state.darkMode ? '☀️ نهاري' : '🌙 ليلي';
+  saveState();
+}
+
+// ======================================================
+// NAVIGATION
+// ======================================================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'")) b.classList.add('active');
+  });
+  if (id === 'home') updateHomePage();
+  if (id === 'chapters') renderChapterList();
+  if (id === 'mcq') renderMCQ();
+  if (id === 'truefalse') renderTF();
+  if (id === 'comparisons') renderComparisons();
+  if (id === 'review') renderReview();
+  if (id === 'flashcards') renderFlashcard();
+  if (id === 'search') document.getElementById('smart-search').focus();
+  if (id === 'numgame') startGame();
+  if (id === 'exam') resetExamScreens();
+  localStorage.setItem('bmn401_lastVisit', new Date().toLocaleDateString('ar-SA'));
+}
+
+function switchTab(el, tabClass, targetId) {
+  const parent = el.closest('.' + tabClass) || el.parentElement;
+  parent.querySelectorAll ? parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active')) : 0;
+  el.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const section = document.getElementById(targetId).closest('.section') || document.getElementById('summary');
+  section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById(targetId).classList.add('active');
+}
+
+// ======================================================
+// HOME PAGE
+// ======================================================
+function updateHomePage() {
+  const mcqAnswered = Object.keys(state.mcqAnswers).length;
+  const tfAnswered = Object.keys(state.tfAnswers).length;
+  const fcReviewed = state.reviewed.length;
+  const chCompleted = Object.keys(state.chaptersCompleted).length;
+  
+  setProgress('ch-prog', 'ch-prog-val', chCompleted, 10);
+  setProgress('mcq-prog', 'mcq-prog-val', mcqAnswered, MCQ_QUESTIONS.length);
+  setProgress('tf-prog', 'tf-prog-val', tfAnswered, TF_QUESTIONS.length);
+  setProgress('fc-prog', 'fc-prog-val', fcReviewed, FLASHCARDS.length);
+  
+  document.getElementById('stat-mcq-correct').textContent = state.mcqCorrect || 0;
+  document.getElementById('stat-mcq-wrong').textContent = state.mcqWrong || 0;
+  document.getElementById('stat-exams').textContent = state.examCount || 0;
+  
+  const last = localStorage.getItem('bmn401_lastVisit');
+  if (last) document.getElementById('last-visited').textContent = 'آخر زيارة: ' + last;
+  
+  const hc = document.getElementById('home-chapters');
+  hc.innerHTML = CHAPTERS_DATA.map((ch, i) => `
+    <div onclick="showSection('chapters');setTimeout(()=>openChapter(${i}),100)" style="background:var(--card-bg);border-radius:10px;padding:14px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s;border-right:4px solid ${ch.color};" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+      <div style="font-size:1.2rem;margin-bottom:4px;">${ch.icon} <strong style="color:${ch.color}">الفصل ${ch.num}</strong></div>
+      <div style="font-size:0.82rem;font-weight:600;margin-bottom:4px;">${ch.title}</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);">${ch.desc.substring(0,50)}...</div>
+      ${state.chaptersCompleted[i] ? '<div style="font-size:0.75rem;color:var(--success);margin-top:4px;">✅ مكتمل</div>' : ''}
+    </div>
+  `).join('');
+}
+
+function setProgress(fillId, valId, val, max) {
+  const pct = Math.round((val / max) * 100);
+  const fill = document.getElementById(fillId);
+  const valEl = document.getElementById(valId);
+  if (fill) fill.style.width = pct + '%';
+  if (valEl) valEl.textContent = pct + '%';
+}
+
+// ======================================================
+// CHAPTERS
+// ======================================================
+function renderChapterList() {
+  const cl = document.getElementById('chapter-list');
+  document.getElementById('chapter-detail').style.display = 'none';
+  cl.style.display = 'grid';
+  cl.innerHTML = CHAPTERS_DATA.map((ch, i) => `
+    <div class="ch-card" onclick="openChapter(${i})">
+      <div class="ch-header" style="background:${ch.color};">
+        <div class="ch-num">${ch.num}</div>
+        <div>
+          <div class="ch-title-text">${ch.icon} ${ch.title}</div>
+        </div>
+      </div>
+      <div class="ch-body"><p>${ch.desc}</p></div>
+      <div class="ch-footer">
+        <span style="font-size:0.78rem;color:${state.chaptersCompleted[i]?'var(--success)':'var(--text-muted)'};">${state.chaptersCompleted[i]?'✅ مكتمل':'📚 لم تُدرس بعد'}</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:${state.chaptersCompleted[i]?'100':'0'}%;background:${ch.color};"></div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openChapter(idx) {
+  document.getElementById('chapter-list').style.display = 'none';
+  const detail = document.getElementById('chapter-detail');
+  detail.style.display = 'block';
+  const ch = CHAPTERS_DATA[idx];
+  const content = getChapterDetailContent(idx, ch);
+  document.getElementById('chapter-detail-content').innerHTML = `
+    <div class="ch-detail-header" style="background:${ch.color};">
+      <h2>${ch.icon} الفصل ${ch.num}: ${ch.title}</h2>
+      <p style="opacity:0.85;">${ch.desc}</p>
+    </div>
+    ${content}
+    <div style="margin-top:16px;">
+      <button class="btn btn-success" onclick="markChapterDone(${idx})">✅ وضع علامة مكتمل</button>
+    </div>
+  `;
+}
+
+function markChapterDone(idx) {
+  state.chaptersCompleted[idx] = true;
+  saveState();
+  alert('تم تسجيل الفصل كمكتمل! ✅');
+}
+
+function backToChapters() {
+  document.getElementById('chapter-detail').style.display = 'none';
+  document.getElementById('chapter-list').style.display = 'grid';
+}
+
+function getChapterDetailContent(idx, ch) {
+  const sumIds = ['sum1','sum2','sum3','sum4','sum5','sum6','sum7','sum8','sum9','sum10'];
+  const el = document.getElementById(sumIds[idx]);
+  return el ? el.innerHTML : '<div class="card"><p>يرجى مراجعة قسم الملخص لمحتوى هذا الفصل.</p></div>';
+}
+
+// ======================================================
+// FLASHCARDS
+// ======================================================
+function renderFlashcard() {
+  const fc = state.filteredFC[state.currentFC];
+  if (!fc) return;
+  document.getElementById('fc-question').textContent = fc.q;
+  document.getElementById('fc-answer').textContent = fc.a;
+  document.getElementById('fc-counter').textContent = `البطاقة ${state.currentFC+1} من ${state.filteredFC.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+  const favBtn = document.getElementById('fav-btn');
+  const origIdx = FLASHCARDS.indexOf(fc);
+  favBtn.textContent = state.favs.includes(origIdx) ? '★' : '☆';
+  updateFCReviewedDisplay();
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+  const origIdx = FLASHCARDS.indexOf(state.filteredFC[state.currentFC]);
+  if (!state.reviewed.includes(origIdx)) { state.reviewed.push(origIdx); saveState(); }
+  updateFCReviewedDisplay();
+}
+
+function nextCard() {
+  state.currentFC = (state.currentFC + 1) % state.filteredFC.length;
+  renderFlashcard();
+}
+function prevCard() {
+  state.currentFC = (state.currentFC - 1 + state.filteredFC.length) % state.filteredFC.length;
+  renderFlashcard();
+}
+
+function toggleFav() {
+  const origIdx = FLASHCARDS.indexOf(state.filteredFC[state.currentFC]);
+  const fi = state.favs.indexOf(origIdx);
+  if (fi > -1) state.favs.splice(fi, 1); else state.favs.push(origIdx);
+  saveState();
+  renderFlashcard();
+  document.getElementById('fc-fav-count').textContent = `المفضلة: ${state.favs.length} بطاقة`;
+}
+
+function shuffleFlashcards() {
+  state.filteredFC = [...state.filteredFC].sort(() => Math.random() - 0.5);
+  state.currentFC = 0;
+  renderFlashcard();
+}
+
+function resetFlashcards() {
+  state.filteredFC = [...FLASHCARDS];
+  state.currentFC = 0;
+  renderFlashcard();
+}
+
+function filterFlashcards() {
+  const f = document.getElementById('fc-filter').value;
+  if (f === 'all') state.filteredFC = [...FLASHCARDS];
+  else if (f === 'fav') state.filteredFC = FLASHCARDS.filter((_, i) => state.favs.includes(i));
+  else state.filteredFC = FLASHCARDS.filter(fc => fc.cat === f);
+  state.currentFC = 0;
+  if (state.filteredFC.length === 0) state.filteredFC = [...FLASHCARDS];
+  renderFlashcard();
+}
+
+function updateFCReviewedDisplay() {
+  const el = document.getElementById('fc-reviewed');
+  if (el) el.textContent = `تمت مراجعة ${state.reviewed.length} بطاقة من أصل ${FLASHCARDS.length}`;
+}
+
+// ======================================================
+// MCQ
+// ======================================================
+let currentMCQList = [...MCQ_QUESTIONS];
+
+function renderMCQ() {
+  const chFilter = document.getElementById('mcq-ch-filter').value;
+  currentMCQList = chFilter === 'all' ? [...MCQ_QUESTIONS] : MCQ_QUESTIONS.filter(q => q.ch == parseInt(chFilter));
+  const container = document.getElementById('mcq-container');
+  container.innerHTML = currentMCQList.map((q, i) => {
+    const ans = state.mcqAnswers[i];
+    return `
+    <div class="mcq-question" id="mcq-q-${i}">
+      <div class="mcq-q-text"><span class="mcq-q-num">س${i+1}.</span> ${q.q}</div>
+      <div class="mcq-options">
+        ${q.opts.map((opt, oi) => `
+          <div class="mcq-option ${ans !== undefined ? (oi === q.ans ? 'correct' : (oi === ans && oi !== q.ans ? 'wrong' : '')) + ' disabled' : ''}"
+            onclick="answerMCQ(${i}, ${oi})"
+            id="mcq-opt-${i}-${oi}">
+            <span>${['أ','ب','ج','د'][oi]})</span> ${opt}
+          </div>
+        `).join('')}
+      </div>
+      ${ans !== undefined ? `<div class="mcq-explanation">💡 <strong>التوضيح:</strong> ${q.exp}</div>` : ''}
+    </div>`;
+  }).join('');
+  updateMCQScore();
+}
+
+function answerMCQ(qIdx, optIdx) {
+  const q = currentMCQList[qIdx];
+  if (state.mcqAnswers[qIdx] !== undefined) return;
+  state.mcqAnswers[qIdx] = optIdx;
+  if (optIdx === q.ans) {
+    state.mcqCorrect = (state.mcqCorrect || 0) + 1;
+  } else {
+    state.mcqWrong = (state.mcqWrong || 0) + 1;
+  }
+  saveState();
+  renderMCQ();
+}
+
+function shuffleMCQ() {
+  currentMCQList = [...MCQ_QUESTIONS].sort(() => Math.random() - 0.5);
+  state.mcqAnswers = {};
+  saveState();
+  renderMCQ();
+}
+
+function resetMCQResults() {
+  if (confirm('هل تريد إعادة تصفير جميع إجابات MCQ؟')) {
+    state.mcqAnswers = {};
+    state.mcqCorrect = 0;
+    state.mcqWrong = 0;
+    saveState();
+    renderMCQ();
+  }
+}
+
+function updateMCQScore() {
+  const total = Object.keys(state.mcqAnswers).length;
+  const correct = Object.entries(state.mcqAnswers).filter(([i, a]) => currentMCQList[i] && a === currentMCQList[i].ans).length;
+  const pct = total > 0 ? Math.round((correct/total)*100) : 0;
+  const el = document.getElementById('mcq-score-live');
+  if (el) el.textContent = total > 0 ? `✅ ${correct} صحيح من ${total} | ${pct}%` : '';
+}
+
+// ======================================================
+// TRUE FALSE
+// ======================================================
+function renderTF() {
+  const container = document.getElementById('tf-container');
+  container.innerHTML = TF_QUESTIONS.map((q, i) => {
+    const ans = state.tfAnswers[i];
+    return `
+    <div class="tf-card">
+      <div class="tf-statement">${i+1}. ${q.s}</div>
+      <div class="tf-btns">
+        <button class="tf-btn ${ans !== undefined ? (ans === true ? (q.ans ? 'correct-choice' : 'wrong-choice') : '') : ''}"
+          onclick="answerTF(${i}, true)" ${ans !== undefined ? 'disabled' : ''}>✅ صح</button>
+        <button class="tf-btn ${ans !== undefined ? (ans === false ? (!q.ans ? 'correct-choice' : 'wrong-choice') : '') : ''}"
+          onclick="answerTF(${i}, false)" ${ans !== undefined ? 'disabled' : ''}>❌ خطأ</button>
+      </div>
+      <div class="tf-result ${ans !== undefined ? 'show' : ''} ${ans !== undefined ? (ans === q.ans ? 'right' : 'fail') : ''}">
+        ${ans !== undefined ? (ans === q.ans ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة!') + ' ' + q.exp : ''}
+      </div>
+    </div>`;
+  }).join('');
+  updateTFScore();
+}
+
+function answerTF(idx, val) {
+  if (state.tfAnswers[idx] !== undefined) return;
+  state.tfAnswers[idx] = val;
+  saveState();
+  renderTF();
+}
+
+function resetTFResults() {
+  if (confirm('هل تريد إعادة تصفير جميع إجابات صح/خطأ؟')) {
+    state.tfAnswers = {};
+    saveState();
+    renderTF();
+  }
+}
+
+function updateTFScore() {
+  const total = Object.keys(state.tfAnswers).length;
+  const correct = Object.entries(state.tfAnswers).filter(([i, a]) => a === TF_QUESTIONS[i].ans).length;
+  const el = document.getElementById('tf-score-live');
+  if (el) el.textContent = total > 0 ? `✅ ${correct} صحيح من ${total} | ${Math.round((correct/total)*100)}%` : '';
+}
+
+// ======================================================
+// COMPARISONS
+// ======================================================
+let compAnswersVisible = true;
+function toggleAllAnswers() {
+  compAnswersVisible = !compAnswersVisible;
+  document.querySelectorAll('.comp-details').forEach(el => el.style.display = compAnswersVisible ? '' : 'none');
+}
+
+function renderComparisons() {
+  const comparisons = [
+    {
+      title: "المدرسة العلمية (تايلور) مقابل المدرسة التنظيمية (فايول)",
+      headers: ["العنصر", "المدرسة العلمية — تايلور", "المدرسة التنظيمية — فايول"],
+      rows: [
+        ["الرائد", "فريدريك تايلور", "هنري فايول"],
+        ["التركيز", "المستويات الدنيا والعمال", "المستويات العليا والمديرين"],
+        ["الهدف", "رفع إنتاجية العمل بأسلوب علمي", "دراسة الوظائف الإدارية ومبادئها"],
+        ["الموقف من التعليم", "لم يُركز عليه", "الإدارة يمكن تعلمها في المدارس"],
+        ["مبادئه", "6 مبادئ للعمال", "12 مبدأً إدارياً"],
+        ["اللقب", "أبو الإدارة العلمية في القرن العشرين", "مؤسس المدرسة التنظيمية"]
+      ]
+    },
+    {
+      title: "النموذج الأمريكي مقابل الياباني مقابل نظرية Z",
+      headers: ["العنصر", "النموذج الأمريكي", "النموذج الياباني", "نموذج نظرية Z"],
+      rows: [
+        ["مدة الاستخدام", "قصير الأجل", "مدى الحياة", "طويل الأجل"],
+        ["اتخاذ القرار", "فردي", "جماعي", "مشاركة وإجماع"],
+        ["المسؤولية", "فردية", "جماعية", "فردية"],
+        ["الترقية", "سريعة", "بطيئة", "مسارات معتدلة التخصص"],
+        ["الولاء", "منخفض — يغير الشركة بسهولة", "عالٍ جداً — الشركة كالعائلة", "متوسط إلى عالٍ"]
+      ]
+    },
+    {
+      title: "Goals مقابل Objectives",
+      headers: ["العنصر", "Goals (أهداف)", "Objectives (مقاصد)"],
+      rows: [
+        ["التعريف", "أهداف عامة غير مُقاسة", "أهداف مقاسة ومحددة بفترة زمنية"],
+        ["القابلية للقياس", "لا يمكن قياسها بدقة", "قابلة للقياس الكمي"],
+        ["الفترة الزمنية", "غير محددة", "محددة ومقننة"],
+        ["المستوى", "استراتيجي — عام", "تشغيلي أو تكتيكي"]
+      ]
+    },
+    {
+      title: "القائد مقابل المدير",
+      headers: ["العنصر", "القائد", "المدير"],
+      rows: [
+        ["التركيز", "الأهداف الاستراتيجية", "الأنشطة اليومية"],
+        ["السلطة", "يشارك التابعية مسؤولية القيادة", "الانفراد بالسلطة والمحافظة عليها"],
+        ["الالتزام", "يسعى لتحقيق أهداف المنظمة", "يلتزم باللوائح والأنشطة"],
+        ["العلاقة", "كل قائد هو مدير", "ليس كل مدير قائداً"],
+        ["المقومات", "يمتلك مقومات القيادة", "لا يحتاج مقومات قيادية بالضرورة"]
+      ]
+    },
+    {
+      title: "نظرية X مقابل نظرية Y (ماكريجر 1960)",
+      headers: ["العنصر", "نظرية X (سلبية)", "نظرية Y (إيجابية)"],
+      rows: [
+        ["طبيعة الإنسان", "سلبي، لا يحب العمل", "إيجابي، يحب العمل"],
+        ["الطاقة", "كسول، ضعيف الطموح", "يمتلك طاقات ويسعى للنمو"],
+        ["المسؤولية", "يتهرب من المسؤولية", "يتحمل المسؤولية ويلتزم بها"],
+        ["التحفيز", "يحتاج عقاب وتهديد وإكراه", "الرقابة الذاتية كافية"],
+        ["الأجر", "الأجر أهم من أي حافز", "تحقيق الذات أهم من المكافأة المادية"]
+      ]
+    },
+    {
+      title: "الرقابة قبل/أثناء/بعد التنفيذ",
+      headers: ["النوع", "التعريف", "يعتمد على"],
+      rows: [
+        ["قبل التنفيذ", "تتم قبل بدء العمل", "المدخلات"],
+        ["أثناء التنفيذ", "تتم خلال تنفيذ العمل", "العمليات المستمرة"],
+        ["بعد التنفيذ", "تتم بعد الانتهاء من العمل", "المخرجات والنتائج"]
+      ]
+    },
+    {
+      title: "أنواع الخطط من حيث الزمن",
+      headers: ["النوع", "المدة", "مثال"],
+      rows: [
+        ["طويلة الأمد", "أكثر من 5 سنوات", "الخطة الاستراتيجية 10 سنوات"],
+        ["متوسطة المدى", "من سنة إلى 5 سنوات", "خطة التوسع 3 سنوات"],
+        ["قصيرة المدى", "من شهور إلى سنة", "الميزانية السنوية"]
+      ]
+    },
+    {
+      title: "الديكتاتوري مقابل الأوتوقراطي",
+      headers: ["العنصر", "القائد الديكتاتوري", "القائد الأوتوقراطي"],
+      rows: [
+        ["مركزية السلطة", "مركزية شديدة", "مركزية قوية"],
+        ["المناقشة", "لا يسمح بأي مناقشة", "يسمح أحياناً"],
+        ["الثقة", "لا يحظى بثقة المرؤوسين دائماً", "يتمتع بثقة المرؤوسين"],
+        ["الفعالية", "يصدر أوامر فقط", "متابع وفعال"],
+        ["الأولوية", "غير واضح", "إنجاز العمل في مقدمة اعتباراته"]
+      ]
+    },
+    {
+      title: "اللامركزية مقابل التفويض",
+      headers: ["العنصر", "التفويض", "اللامركزية"],
+      rows: [
+        ["الطبيعة", "منح من الرئيس للمرؤوس", "تتم بموجب قواعد تشريعية"],
+        ["المسؤولية", "المفوِّض يبقى مسؤولاً عن النتائج", "أكثر استقلالية"],
+        ["الأساس", "علاقة شخصية — من شخص لآخر", "قانونية تشريعية"],
+        ["الرقابة", "رقابة مشددة من الرئيس", "رقابة أقل مباشرة"]
+      ]
+    }
+  ];
+  
+  const el = document.getElementById('comparisons-content');
+  el.innerHTML = comparisons.map(comp => `
+    <div class="comp-section">
+      <div class="comp-title">⚖️ ${comp.title}</div>
+      <div class="comp-details">
+        <div style="overflow-x:auto;">
+          <table class="comp-table">
+            <tr>${comp.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+            ${comp.rows.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}
+          </table>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ======================================================
+// REVIEW
+// ======================================================
+function renderReview() {
+  const el = document.getElementById('review-items');
+  el.innerHTML = REVIEW_ITEMS.map(item => `
+    <div class="review-item">
+      <span class="star-icon">★</span>
+      <p>${item.replace('★ ','')}</p>
+    </div>
+  `).join('');
+}
+
+// ======================================================
+// NUMBERS GAME
+// ======================================================
+function startGame() {
+  state.gameScore = 0;
+  state.gameTotal = 0;
+  state.gameOrder = [...Array(GAME_QUESTIONS.length).keys()].sort(() => Math.random() - 0.5);
+  state.gameIdx = 0;
+  document.getElementById('game-score').textContent = '0';
+  document.getElementById('game-total').textContent = '0';
+  document.getElementById('game-feedback').textContent = '';
+  document.getElementById('game-next-btn').style.display = 'none';
+  loadGameQuestion();
+}
+
+function loadGameQuestion() {
+  if (state.gameIdx >= state.gameOrder.length) {
+    const total = state.gameOrder.length;
+    document.getElementById('game-q').textContent = '🎉 انتهت اللعبة!';
+    document.getElementById('game-opts').innerHTML = '';
+    document.getElementById('game-feedback').innerHTML = `النتيجة النهائية: ${state.gameScore} من ${total} (${Math.round(state.gameScore/total*100)}%)`;
+    document.getElementById('game-next-btn').style.display = 'none';
+    return;
+  }
+  const q = GAME_QUESTIONS[state.gameOrder[state.gameIdx]];
+  document.getElementById('game-q').textContent = q.q;
+  document.getElementById('game-progress-text').textContent = `السؤال ${state.gameIdx+1} من ${state.gameOrder.length}`;
+  document.getElementById('game-feedback').textContent = '';
+  document.getElementById('game-next-btn').style.display = 'none';
+  document.getElementById('game-opts').innerHTML = q.opts.map((opt, i) => `
+    <button class="game-opt" onclick="answerGame(${i}, ${q.ans})">${opt}</button>
+  `).join('');
+}
+
+function answerGame(chosen, correct) {
+  document.querySelectorAll('.game-opt').forEach((btn, i) => {
+    btn.classList.add('disabled');
+    btn.onclick = null;
+    if (i === correct) btn.classList.add('correct');
+    else if (i === chosen) btn.classList.add('wrong');
+  });
+  if (chosen === correct) {
+    state.gameScore++;
+    document.getElementById('game-feedback').textContent = '✅ إجابة صحيحة!';
+    document.getElementById('game-feedback').style.color = 'var(--success)';
+  } else {
+    document.getElementById('game-feedback').textContent = `❌ خاطئ! الإجابة الصحيحة هي: ${GAME_QUESTIONS[state.gameOrder[state.gameIdx]].opts[correct]}`;
+    document.getElementById('game-feedback').style.color = 'var(--danger)';
+  }
+  state.gameTotal++;
+  document.getElementById('game-score').textContent = state.gameScore;
+  document.getElementById('game-total').textContent = state.gameTotal;
+  document.getElementById('game-next-btn').style.display = 'block';
+}
+
+function nextGameQuestion() {
+  state.gameIdx++;
+  loadGameQuestion();
+}
+
+// ======================================================
+// SEARCH
+// ======================================================
+function liveSearch(q) {
+  if (q.length < 2) return;
+  const section = document.querySelector('.section.active');
+  if (section && section.id !== 'search') {
+    showSection('search');
+    document.getElementById('smart-search').value = q;
+  }
+  smartSearch(q);
+}
+
+function smartSearch(query) {
+  const q = query.trim().toLowerCase();
+  const container = document.getElementById('search-results');
+  if (!q || q.length < 2) {
+    container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">ابدأ الكتابة للبحث...</p>';
+    return;
+  }
+  const results = [];
+  
+  FLASHCARDS.forEach((fc, i) => {
+    if (fc.q.toLowerCase().includes(q) || fc.a.toLowerCase().includes(q)) {
+      results.push({type:'🃏 بطاقة تعليمية', text:`<strong>${highlight(fc.q, q)}</strong><br>${highlight(fc.a, q)}`});
+    }
+  });
+  
+  MCQ_QUESTIONS.forEach((mc, i) => {
+    if (mc.q.toLowerCase().includes(q) || mc.exp.toLowerCase().includes(q)) {
+      results.push({type:'❓ سؤال MCQ', text:`${highlight(mc.q, q)}<br><small style="color:var(--text-muted);">${highlight(mc.exp, q)}</small>`});
+    }
+  });
+  
+  REVIEW_ITEMS.forEach(item => {
+    if (item.toLowerCase().includes(q)) {
+      results.push({type:'⭐ مراجعة ذهبية', text:highlight(item, q)});
+    }
+  });
+  
+  TF_QUESTIONS.forEach((tf, i) => {
+    if (tf.s.toLowerCase().includes(q) || tf.exp.toLowerCase().includes(q)) {
+      results.push({type:'✅ صح وخطأ', text:`${highlight(tf.s, q)}<br><small>${highlight(tf.exp, q)}</small>`});
+    }
+  });
+  
+  if (results.length === 0) {
+    container.innerHTML = `<p style="color:var(--text-muted);text-align:center;padding:40px;">لم يُعثر على نتائج لـ "${q}"</p>`;
+  } else {
+    container.innerHTML = `<p style="color:var(--text-muted);margin-bottom:12px;font-size:0.88rem;">${results.length} نتيجة لـ "${q}"</p>` +
+      results.slice(0,50).map(r => `
+        <div class="search-result-item">
+          <div class="search-result-type">${r.type}</div>
+          <div class="search-result-text">${r.text}</div>
+        </div>
+      `).join('');
+  }
+}
+
+function smartSearch2(query) { smartSearch(query); }
+
+function highlight(text, q) {
+  if (!q) return text;
+  const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
+// ======================================================
+// EXAM
+// ======================================================
+function resetExamScreens() {
+  document.getElementById('exam-start-screen').style.display = 'block';
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('exam-result-screen').style.display = 'none';
+  if (state.examData.timer) { clearInterval(state.examData.timer); state.examData.timer = null; }
+}
+
+function startExam() {
+  const shuffled = [...MCQ_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 50);
+  state.examData = {
+    questions: shuffled,
+    answers: {},
+    timer: null,
+    time: 3600,
+    current: 0
+  };
+  document.getElementById('exam-start-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'block';
+  document.getElementById('exam-result-screen').style.display = 'none';
+  renderExamQuestion();
+  startExamTimer();
+}
+
+function startExamTimer() {
+  state.examData.time = 3600;
+  state.examData.timer = setInterval(() => {
+    state.examData.time--;
+    const m = Math.floor(state.examData.time / 60).toString().padStart(2,'0');
+    const s = (state.examData.time % 60).toString().padStart(2,'0');
+    const timerEl = document.getElementById('exam-timer');
+    if (timerEl) {
+      timerEl.textContent = `${m}:${s}`;
+      if (state.examData.time < 300) timerEl.classList.add('danger');
+    }
+    if (state.examData.time <= 0) submitExam();
+  }, 1000);
+}
+
+function renderExamQuestion() {
+  const q = state.examData.questions[state.examData.current];
+  const idx = state.examData.current;
+  const pct = ((idx + 1) / 50) * 100;
+  document.getElementById('exam-q-num').textContent = idx + 1;
+  document.getElementById('exam-progress-bar').style.width = pct + '%';
+  
+  const chosenAns = state.examData.answers[idx];
+  document.getElementById('exam-question-wrap').innerHTML = `
+    <div class="mcq-question">
+      <div class="mcq-q-text"><span class="mcq-q-num">س${idx+1}.</span> ${q.q}</div>
+      <div class="mcq-options">
+        ${q.opts.map((opt, oi) => `
+          <div class="mcq-option ${chosenAns === oi ? 'disabled' : ''}" 
+            style="${chosenAns === oi ? 'border-color:var(--primary);background:rgba(26,86,164,0.1);' : ''}"
+            onclick="examAnswer(${idx}, ${oi})">
+            <span>${['أ','ب','ج','د'][oi]})</span> ${opt}
+          </div>
+        `).join('')}
+      </div>
+      ${chosenAns !== undefined ? '<div style="color:var(--success);font-size:0.85rem;margin-top:8px;">✅ تم اختيار الإجابة — يمكنك تغييرها</div>' : ''}
+    </div>
+  `;
+}
+
+function examAnswer(qIdx, optIdx) {
+  state.examData.answers[qIdx] = optIdx;
+  renderExamQuestion();
+}
+
+function examNext() {
+  if (state.examData.current < 49) {
+    state.examData.current++;
+    renderExamQuestion();
+  }
+}
+
+function examPrev() {
+  if (state.examData.current > 0) {
+    state.examData.current--;
+    renderExamQuestion();
+  }
+}
+
+function submitExam() {
+  if (state.examData.timer) { clearInterval(state.examData.timer); state.examData.timer = null; }
+  let correct = 0;
+  state.examData.questions.forEach((q, i) => {
+    if (state.examData.answers[i] === q.ans) correct++;
+  });
+  const wrong = Object.keys(state.examData.answers).length - correct;
+  const unanswered = 50 - Object.keys(state.examData.answers).length;
+  const pct = Math.round((correct / 50) * 100);
+  
+  state.examCount = (state.examCount || 0) + 1;
+  saveState();
+  
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('exam-result-screen').style.display = 'block';
+  
+  const gradeEl = document.getElementById('result-grade');
+  gradeEl.textContent = pct + '%';
+  gradeEl.style.color = pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--secondary)' : 'var(--danger)';
+  
+  let label = pct >= 90 ? '🏆 ممتاز — إبداع!' : pct >= 80 ? '🎉 جيد جداً — أداء رائع!' : pct >= 70 ? '✅ جيد — استمر في المراجعة' : pct >= 60 ? '⚠️ مقبول — تحتاج مراجعة أكثر' : '❌ راجع المادة مجدداً';
+  
+  document.getElementById('result-correct').textContent = correct;
+  document.getElementById('result-wrong').textContent = wrong + unanswered;
+  document.getElementById('result-pct').textContent = pct + '%';
+  document.getElementById('result-label').textContent = label;
+  
+  document.getElementById('result-review-wrap').innerHTML = `
+    <div style="font-weight:700;margin-bottom:12px;color:var(--primary);">📋 مراجعة الأسئلة الخاطئة:</div>
+    ${state.examData.questions.map((q, i) => {
+      const chosen = state.examData.answers[i];
+      const isCorrect = chosen === q.ans;
+      if (isCorrect) return '';
+      return `<div style="padding:10px;margin-bottom:8px;border-radius:8px;background:rgba(224,49,49,0.08);border:1px solid rgba(224,49,49,0.3);font-size:0.85rem;">
+        <strong style="color:var(--danger);">س${i+1}:</strong> ${q.q}<br>
+        <span style="color:var(--danger);">إجابتك: ${chosen !== undefined ? q.opts[chosen] : 'لم تجب'}</span><br>
+        <span style="color:var(--success);">الصحيح: ${q.opts[q.ans]}</span>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+// ======================================================
+// INIT
+// ======================================================
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  if (state.darkMode) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('theme-btn').textContent = '☀️ نهاري';
+  }
+  
+  // Tab click handlers for summary section
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      const tabGroup = this.closest('.tabs');
+      if (!tabGroup) return;
+      tabGroup.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  
+  updateHomePage();
+  renderFlashcard();
+  updateFCReviewedDisplay();
+  document.getElementById('fc-fav-count').textContent = `المفضلة: ${state.favs.length} بطاقة`;
+  document.getElementById('smart-search').addEventListener('input', e => smartSearch(e.target.value));
+  
+  localStorage.setItem('bmn401_lastVisit', new Date().toLocaleDateString('ar-SA'));
+});
+</script>
+</body>
+</html>
